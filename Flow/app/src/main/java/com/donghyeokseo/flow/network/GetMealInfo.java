@@ -2,7 +2,7 @@ package com.donghyeokseo.flow.network;
 
 import android.os.AsyncTask;
 
-import com.donghyeokseo.flow.interfaces.MealResponse;
+import com.donghyeokseo.flow.network.interfaces.MealDelegate;
 import com.donghyeokseo.flow.school.School;
 import com.donghyeokseo.flow.school.SchoolException;
 import com.donghyeokseo.flow.school.SchoolMenu;
@@ -13,12 +13,12 @@ import java.util.List;
  * Created by dawncrow on 2018. 3. 13..
  */
 
-public class SchoolInfo extends AsyncTask {
-    private static final School api = new School(School.Type.HIGH, School.Region.DAEGU, "D100000282");
-    public static MealResponse mealResponse = null;
+public class GetMealInfo extends AsyncTask<Object, Void, List<SchoolMenu>> {
+    private final School api = new School(School.Type.HIGH, School.Region.DAEGU, "D100000282");
+    public MealDelegate mealDelegate = null;
 
     @Override
-    protected Object doInBackground(Object[] objects) {
+    protected List<SchoolMenu> doInBackground(Object[] objects) {
 //        --- parameter explanation ---
 //        objects[0] = year
 //        objects[1] = month
@@ -34,7 +34,7 @@ public class SchoolInfo extends AsyncTask {
     }
 
     @Override
-    protected void onPostExecute(Object o) {
-        mealResponse.processFinish(o);
+    protected void onPostExecute(List<SchoolMenu> o) {
+        mealDelegate.processFinish(o);
     }
 }

@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">Flow</string>
-    <string name="title_activity_meal">MealActivity</string>
+    <string name="breakfast_title">아침</string>
+    <string name="lunch_title">점심</string>
+    <string name="dinner_title">저녁</string>
+    <string name="sync_data">정보 받아오는중</string>
+    <string name="no_data_title">급식 다 먹음</string>
+    <string name="no_data_content">오늘 급식이 더이상 없습니다</string>
 </resources>

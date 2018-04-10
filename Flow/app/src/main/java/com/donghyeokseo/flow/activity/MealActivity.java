@@ -3,45 +3,42 @@ package com.donghyeokseo.flow.activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.os.Build;
+import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-
-import android.support.v4.view.ViewPager;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.Menu;
 import android.view.MenuItem;
-
 import android.widget.DatePicker;
 
 import com.donghyeokseo.flow.R;
 import com.donghyeokseo.flow.adapter.SectionsPagerAdapter;
 import com.donghyeokseo.flow.fragment.PlaceholderFragment;
-import com.donghyeokseo.flow.model.MealDate;
-import com.donghyeokseo.flow.network.SchoolInfo;
-import com.donghyeokseo.flow.interfaces.MealResponse;
+import com.donghyeokseo.flow.network.interfaces.MealDelegate;
+import com.donghyeokseo.flow.network.GetMealInfo;
 import com.donghyeokseo.flow.school.SchoolMenu;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class MealActivity extends AppCompatActivity implements MealResponse,
+public class MealActivity extends AppCompatActivity implements MealDelegate,
         DatePickerDialog.OnDateSetListener {
-
     private SectionsPagerAdapter mSectionsPagerAdapter;
-    private ViewPager mViewPager;
     private List<SchoolMenu> mealInfo = new ArrayList<>();
-    private MealDate mealDate = new MealDate();
     private DatePickerDialog.OnDateSetListener dateSetListener = this;
+    private ViewPager mViewPager;
+    private int year;
+    private int month;
+    private int day;
 
     private void setDateToToday() {
         //오늘 날짜로 설정
         PlaceholderFragment.anotherMonth = false;
-        mealDate.setYear(Calendar.getInstance().get(Calendar.YEAR));
-        mealDate.setMonth(Calendar.getInstance().get(Calendar.MONTH) + 1);
-        mealDate.setDay(Calendar.getInstance().get(Calendar.DATE));
+        year = Calendar.getInstance().get(Calendar.YEAR);
+        month = Calendar.getInstance().get(Calendar.MONTH) + 1;
+        day = Calendar.getInstance().get(Calendar.DATE);
     }
 
     private void showDatePicker() {
@@ -53,8 +50,8 @@ public class MealActivity extends AppCompatActivity implements MealResponse,
             context = this;
         }
         DatePickerDialog datePickerDialog =
-                new DatePickerDialog(context, dateSetListener, mealDate.getYear(),
-                        mealDate.getMonth(), mealDate.getDay());
+                new DatePickerDialog(context, dateSetListener, year,
+                        month, day);
         datePickerDialog.show();
     }
 
@@ -62,24 +59,24 @@ public class MealActivity extends AppCompatActivity implements MealResponse,
         //급식 정보 파싱 받아오기
         int nowMonth = 0;
         Object[] asyncParameters = new Object[]{
-                mealDate.getYear(),
-                mealDate.getMonth() + nowMonth,
-                mealDate.getDay()
+                year,
+                month + nowMonth,
+                day
         };
-        SchoolInfo schoolInfo = new SchoolInfo();
-        SchoolInfo.mealResponse = this;
-        schoolInfo.execute(asyncParameters);
+        GetMealInfo getMealInfo = new GetMealInfo();
+        getMealInfo.mealDelegate = this;
+        getMealInfo.execute(asyncParameters);
     }
 
     private void setFragment() {
         //프래그먼트 설정하기
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(), mealDate,
+        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(), year, month, day,
                 mealInfo);
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
-        mViewPager.setCurrentItem(mealDate.getDay() - 1);
+        mViewPager.setCurrentItem(day - 1);
     }
 
     @Override
@@ -95,24 +92,20 @@ public class MealActivity extends AppCompatActivity implements MealResponse,
         setSupportActionBar(toolbar);
 
         setFragment();
-        mViewPager.setCurrentItem(mealDate.getDay() - 1);
+
+        mViewPager.setCurrentItem(day - 1);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_meal, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_next_month) {
             showDatePicker();
             PlaceholderFragment.anotherMonth = true;
@@ -130,8 +123,8 @@ public class MealActivity extends AppCompatActivity implements MealResponse,
     }
 
     @Override
-    public void processFinish(Object objects) {
-        mealInfo = (List<SchoolMenu>) objects;
+    public void processFinish(List<SchoolMenu> mealInfo) {
+        this.mealInfo = mealInfo;
         mSectionsPagerAdapter.mealInfo = mealInfo;
         mSectionsPagerAdapter.notifyDataSetChanged();
     }
@@ -144,13 +137,11 @@ public class MealActivity extends AppCompatActivity implements MealResponse,
             setDateToToday();
         else {
             PlaceholderFragment.anotherMonth = true;
-            mealDate.setYear(year);
-            mealDate.setMonth(monthOfYear + 1);
-            mealDate.setDay(dayOfMonth);
+            this.year = year;
+            this.month = monthOfYear + 1;
+            this.day = dayOfMonth;
         }
         setMealInfo();
         setFragment();
-
-        Log.e("asdf", String.valueOf(monthOfYear));
     }
 }

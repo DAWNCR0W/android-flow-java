@@ -6,10 +6,11 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.donghyeokseo.flow.R;
-import com.donghyeokseo.flow.model.MealDate;
+import com.donghyeokseo.flow.Util;
 import com.donghyeokseo.flow.school.SchoolMenu;
 
 import java.text.SimpleDateFormat;
@@ -18,107 +19,190 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
+import butterknife.BindColor;
+import butterknife.BindString;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 public class PlaceholderFragment extends Fragment {
     public static boolean anotherMonth;
+
+    /**
+     * btnStatus 0 : breakfast
+     * btnStatus 1 : lunch
+     * btnStatus 2 : dinner
+     */
+    public int btnStatus = 0;
+    //버튼
+    @BindView(R.id.breakfast_button)
+    Button breakfastBtn;
+    @BindView(R.id.lunch_button)
+    Button lunchBtn;
+    @BindView(R.id.dinner_button)
+    Button dinnerBtn;
+
+    //버튼 색상
+    @BindColor(R.color.buttonAfterClick)
+    int afterClick;
+    @BindColor(R.color.buttonBeforeClick)
+    int beforeClick;
+
+    //스트링
+    @BindString(R.string.breakfast_title)
+    String breakfastTitle;
+    @BindString(R.string.lunch_title)
+    String lunchTitle;
+    @BindString(R.string.dinner_title)
+    String dinnerTitle;
+    @BindString(R.string.no_data_title)
+    String noDataTitle;
+    @BindString(R.string.no_data_content)
+    String noDataContent;
+
+    //내용
+    @BindView(R.id.meal_breakfast_textView)
+    TextView breakfastContentTv;
+    @BindView(R.id.meal_lunch_textView)
+    TextView lunchContentTv;
+    @BindView(R.id.meal_dinner_textView)
+    TextView dinnerContentTv;
+
+    //날짜
+    @BindView(R.id.meal_date_textView)
+    TextView dateTv;
+
+    //제목
+    @BindView(R.id.breakfast_title_textView)
+    TextView breakfastTitleTv;
+    @BindView(R.id.lunch_title_textView)
+    TextView lunchTitleTv;
+    @BindView(R.id.dinner_title_textView)
+    TextView dinnerTitleTv;
 
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH");
     Date date = new Date();
     private static final String ARG_SECTION_NUMBER = "section_number";
 
-    public static PlaceholderFragment newInstance(int sectionNumber, MealDate mealDate,
+    public static PlaceholderFragment newInstance(int sectionNumber, int year, int month, int day,
                                                   List<SchoolMenu> mealInfo) {
         PlaceholderFragment fragment = new PlaceholderFragment();
         Bundle args = new Bundle();
-        args.putSerializable("mealDate", mealDate);
+        args.putInt("year", year);
+        args.putInt("month", month);
+        args.putInt("day", day);
         args.putParcelableArrayList("mealInfo", (ArrayList<? extends Parcelable>) mealInfo);
         args.putInt(ARG_SECTION_NUMBER, sectionNumber);
         fragment.setArguments(args);
         return fragment;
     }
 
-    public PlaceholderFragment() {
+    @Override
+    public void onResume() {
+        super.onResume();
+        switch (btnStatus) {
+            case 0:
+                setBreakfastBtnClicked(breakfastBtn);
+                break;
+            case 1:
+                setLunchBtnClicked(lunchBtn);
+                break;
+            case 2:
+                setDinnerBtnClicked(dinnerBtn);
+                break;
+        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_meal, container, false);
-        //내용
-        final TextView morningTextView = rootView.findViewById(R.id.meal_moring_textview);
-        final TextView lunchTextView = rootView.findViewById(R.id.meal_lunch_textview);
-        final TextView dinnerTextView = rootView.findViewById(R.id.meal_dinner_textview);
-        final TextView dateTextView = rootView.findViewById(R.id.meal_date);
-        //제목
-        final TextView morning = rootView.findViewById(R.id.morning);
-        final TextView lunch = rootView.findViewById(R.id.lunch);
-        final TextView dinner = rootView.findViewById(R.id.dinner);
-
-        final MealDate mealDate = (MealDate) getArguments().getSerializable("mealDate");
+        rootView.setPadding(0, 0, 0, Util.deviceNavbarHeight);
+        ButterKnife.bind(this, rootView);
         final List<SchoolMenu> mealInfo = getArguments().getParcelableArrayList("mealInfo");
-
-        morningTextView.setText("급식정보 받아오는중");
-        lunchTextView.setText("급식정보 받아오는중");
-        dinnerTextView.setText("급식정보 받아오는중");
+        int year, month, day;
+        year = getArguments().getInt("year");
+        month = getArguments().getInt("month");
+        day = getArguments().getInt("day");
 
         if (!Objects.requireNonNull(mealInfo).isEmpty()) {
-            morningTextView.setText(
+            breakfastContentTv.setText(
                     mealInfo.get(getArguments().getInt(ARG_SECTION_NUMBER) - 1).breakfast);
-            lunchTextView.setText(
+            lunchContentTv.setText(
                     mealInfo.get(getArguments().getInt(ARG_SECTION_NUMBER) - 1).lunch);
-            dinnerTextView.setText(
+            dinnerContentTv.setText(
                     mealInfo.get(getArguments().getInt(ARG_SECTION_NUMBER) - 1).dinner);
-            dateTextView.setText(mealDate.getYear() + "년 " + mealDate.getMonth() + "월 " +
+            dateTv.setText(year + "년 " + month + "월 " +
                     getArguments().getInt(ARG_SECTION_NUMBER) + "일");
         }
-        if (anotherMonth) {
-            //다른 날짜
-            morningTextView.setVisibility(View.VISIBLE);
-            lunchTextView.setVisibility(View.VISIBLE);
-            dinnerTextView.setVisibility(View.VISIBLE);
-            morning.setVisibility(View.VISIBLE);
-            lunch.setVisibility(View.VISIBLE);
-            dinner.setVisibility(View.VISIBLE);
-        } else {
+        setBreakfastBtnClicked(breakfastBtn);
+        if (!anotherMonth) {
             //오늘
             date.setTime(System.currentTimeMillis());
             int curHour = Integer.parseInt(simpleDateFormat.format(date));
-            if (getArguments().getInt(ARG_SECTION_NUMBER) == mealDate.getDay()) {
+            if (getArguments().getInt(ARG_SECTION_NUMBER) == day) {
                 if (!anotherMonth && curHour < 7) {
                     //아침 먹기 전
-                    lunchTextView.setVisibility(View.GONE);
-                    dinnerTextView.setVisibility(View.GONE);
-                    lunch.setVisibility(View.GONE);
-                    dinner.setVisibility(View.GONE);
+                    setBreakfastBtnClicked(breakfastBtn);
                 } else if (!anotherMonth && curHour < 13) {
                     //점심 먹기 전
-                    morningTextView.setVisibility(View.GONE);
-                    dinnerTextView.setVisibility(View.GONE);
-                    morning.setVisibility(View.GONE);
-                    dinner.setVisibility(View.GONE);
+                    setLunchBtnClicked(lunchBtn);
                 } else if (!anotherMonth && curHour < 19) {
                     //저녁 먹기 전
-                    morningTextView.setVisibility(View.GONE);
-                    lunchTextView.setVisibility(View.GONE);
-                    morning.setVisibility(View.GONE);
-                    lunch.setVisibility(View.GONE);
+                    setDinnerBtnClicked(dinnerBtn);
                 } else {
                     //밥 다 먹었을때
-                    morningTextView.setVisibility(View.GONE);
-                    lunchTextView.setVisibility(View.GONE);
-                    morning.setVisibility(View.GONE);
-                    lunch.setVisibility(View.GONE);
-                    dinnerTextView.setText("오늘 밥 다 묵읏넹");
-                    dinner.setText("밥 다먹음");
+                    breakfastContentTv.setVisibility(View.GONE);
+                    lunchContentTv.setVisibility(View.GONE);
+                    breakfastTitleTv.setVisibility(View.GONE);
+                    lunchTitleTv.setVisibility(View.GONE);
+                    dinnerContentTv.setText("오늘 밥 다 묵읏넹");
+                    dinnerTitleTv.setText("밥 다먹음");
                 }
-            } else {
-                morningTextView.setVisibility(View.VISIBLE);
-                lunchTextView.setVisibility(View.VISIBLE);
-                dinnerTextView.setVisibility(View.VISIBLE);
-                morning.setVisibility(View.VISIBLE);
-                lunch.setVisibility(View.VISIBLE);
-                dinner.setVisibility(View.VISIBLE);
             }
         }
         return rootView;
+    }
+
+    @OnClick(R.id.breakfast_button)
+    public void setBreakfastBtnClicked(View view) {
+        view.setBackgroundColor(afterClick);
+        lunchBtn.setBackgroundColor(beforeClick);
+        dinnerBtn.setBackgroundColor(beforeClick);
+        btnStatus = 0;
+        breakfastContentTv.setVisibility(View.VISIBLE);
+        lunchContentTv.setVisibility(View.GONE);
+        dinnerContentTv.setVisibility(View.GONE);
+        breakfastTitleTv.setVisibility(View.VISIBLE);
+        lunchTitleTv.setVisibility(View.GONE);
+        dinnerTitleTv.setVisibility(View.GONE);
+    }
+
+    @OnClick(R.id.lunch_button)
+    public void setLunchBtnClicked(View view) {
+        view.setBackgroundColor(afterClick);
+        breakfastBtn.setBackgroundColor(beforeClick);
+        dinnerBtn.setBackgroundColor(beforeClick);
+        btnStatus = 1;
+        breakfastContentTv.setVisibility(View.GONE);
+        lunchContentTv.setVisibility(View.VISIBLE);
+        dinnerContentTv.setVisibility(View.GONE);
+        breakfastTitleTv.setVisibility(View.GONE);
+        lunchTitleTv.setVisibility(View.VISIBLE);
+        dinnerTitleTv.setVisibility(View.GONE);
+    }
+
+    @OnClick(R.id.dinner_button)
+    public void setDinnerBtnClicked(View view) {
+        view.setBackgroundColor(afterClick);
+        breakfastBtn.setBackgroundColor(beforeClick);
+        lunchBtn.setBackgroundColor(beforeClick);
+        btnStatus = 2;
+        breakfastContentTv.setVisibility(View.GONE);
+        lunchContentTv.setVisibility(View.GONE);
+        dinnerContentTv.setVisibility(View.VISIBLE);
+        breakfastTitleTv.setVisibility(View.GONE);
+        lunchTitleTv.setVisibility(View.GONE);
+        dinnerTitleTv.setVisibility(View.VISIBLE);
     }
 }
