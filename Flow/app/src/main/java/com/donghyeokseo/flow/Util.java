@@ -16,7 +16,8 @@ public class Util {
 
     public static void getDeviceNavigationBarHeigh(Context context) {
         Resources resources = context.getResources();
-        int resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android");
+        int resourceId = resources.getIdentifier("navigation_bar_height",
+                "dimen", "android");
         if (resourceId > 0) {
             deviceNavbarHeight = resources.getDimensionPixelSize(resourceId);
         }
@@ -31,7 +32,8 @@ public class Util {
             //convert the byte to hex format method 1
             StringBuilder hashCodeBuffer = new StringBuilder();
             for (byte aByteData : byteData) {
-                hashCodeBuffer.append(Integer.toString((aByteData & 0xff) + 0x100, 16).substring(1));
+                hashCodeBuffer.append(Integer.toString((aByteData & 0xff) + 0x100, 16)
+                        .substring(1));
             }
             return hashCodeBuffer.toString();
         } catch (NoSuchAlgorithmException ignored) {
