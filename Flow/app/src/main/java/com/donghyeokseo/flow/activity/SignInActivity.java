@@ -15,6 +15,7 @@ import com.donghyeokseo.flow.network.interfaces.SignInService;
 import com.donghyeokseo.flow.network.request.signin.Request;
 import com.donghyeokseo.flow.network.response.signin.Response;
 
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 import butterknife.BindView;
@@ -59,14 +60,14 @@ public class SignInActivity extends AppCompatActivity {
             public void onResponse(@NonNull Call<Response> call,
                                    @NonNull retrofit2.Response<Response> response) {
                 if (response.isSuccessful()) {
-                    if (response.body().getStatus() == 200) {
+                    if (Objects.requireNonNull(response.body()).getStatus() == 200) {
                         DatabaseHelper databaseHelper = new DatabaseHelper(
                                 SignInActivity.this);
-                        databaseHelper.insertToken(response.body().getData().getToken());
+                        databaseHelper.insertToken(Objects.requireNonNull(response.body()).getData().getToken());
                         startActivity(new Intent(SignInActivity.this,
                                 MainActivity.class));
                     } else {
-                        Toast.makeText(SignInActivity.this, response.body().getMessage(),
+                        Toast.makeText(SignInActivity.this, Objects.requireNonNull(response.body()).getMessage(),
                                 Toast.LENGTH_SHORT).show();
                     }
                 }
