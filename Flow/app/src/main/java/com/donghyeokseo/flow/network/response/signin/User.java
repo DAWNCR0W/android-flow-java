@@ -5,7 +5,7 @@ public class User {
     private String name;
     private String gender;
     private String mobile;
-    private MyClass myClass;
+    private MyClass my_class;
 
     public String getEmail() {
         return email;
@@ -40,10 +40,10 @@ public class User {
     }
 
     public MyClass getMyClass() {
-        return myClass;
+        return my_class;
     }
 
     public void setMyClass(MyClass value) {
-        this.myClass = value;
+        this.my_class = value;
     }
 }

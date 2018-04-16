@@ -2,6 +2,7 @@ package com.donghyeokseo.flow;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.text.TextUtils;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -9,6 +10,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.regex.Pattern;
 
 public class Util {
     public static int deviceNavbarHeight = 0;
@@ -23,22 +25,36 @@ public class Util {
         }
     }
 
-    public static String encryption(String str){
-        try {
-            MessageDigest md = MessageDigest.getInstance("SHA-512");
-            md.update(str.getBytes());
-            byte byteData[] = md.digest();
+    public static String encryption(String input) {
+        String output = "";
+        StringBuilder sb = new StringBuilder();
 
-            //convert the byte to hex format method 1
-            StringBuilder hashCodeBuffer = new StringBuilder();
-            for (byte aByteData : byteData) {
-                hashCodeBuffer.append(Integer.toString((aByteData & 0xff) + 0x100, 16)
-                        .substring(1));
-            }
-            return hashCodeBuffer.toString();
-        } catch (NoSuchAlgorithmException ignored) {
-            return null;
+        MessageDigest md = null;
+        try {
+            md = MessageDigest.getInstance("SHA-512");
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
         }
+
+        if (md == null) {
+            return "";
+        }
+
+        md.update(input.getBytes());
+
+        byte[] msgb = md.digest();
+
+        for (byte temp : msgb) {
+            StringBuilder str = new StringBuilder(Integer.toHexString(temp & 0xFF));
+            while (str.length() < 2) {
+                str.insert(0, "0");
+            }
+            str = new StringBuilder(str.substring(str.length() - 2));
+            sb.append(str);
+        }
+        output = sb.toString();
+
+        return output;
     }
 
     public static String inputStreamToString(HttpURLConnection urlConn) throws IOException {
@@ -59,5 +75,25 @@ public class Util {
         br.close();
 
         return sb.toString();
+    }
+
+    public static boolean isSchoolEmail(String email) {
+        return email != null && Pattern.matches("[\\w\\~\\-\\.]+@(dgsw\\.hs\\.kr)+$", email);
+    }
+
+    public static boolean isValidPassword(String password) {
+        return password != null && Pattern.matches("^[a-zA-Z0-9!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?~`]{8,16}$", password);
+    }
+
+    public static boolean hasSpecialCharacter(String string) {
+        if (TextUtils.isEmpty(string)) {
+            return false;
+        }
+        for (int i = 0; i < string.length(); i++) {
+            if (!Character.isLetterOrDigit(string.charAt(i))) {
+                return true;
+            }
+        }
+        return false;
     }
 }

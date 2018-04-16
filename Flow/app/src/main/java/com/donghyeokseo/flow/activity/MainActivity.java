@@ -11,7 +11,7 @@ import com.donghyeokseo.flow.Util;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public final class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

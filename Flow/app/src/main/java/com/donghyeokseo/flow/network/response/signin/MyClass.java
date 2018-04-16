@@ -3,7 +3,7 @@ package com.donghyeokseo.flow.network.response.signin;
 public class MyClass {
     private long grade;
     private long myClassClass;
-    private long classNumber;
+    private long class_number;
 
     public long getGrade() {
         return grade;
@@ -22,10 +22,10 @@ public class MyClass {
     }
 
     public long getClassNumber() {
-        return classNumber;
+        return class_number;
     }
 
     public void setClassNumber(long value) {
-        this.classNumber = value;
+        this.class_number = value;
     }
 }

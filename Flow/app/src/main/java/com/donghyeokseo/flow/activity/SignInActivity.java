@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -16,13 +17,15 @@ import com.donghyeokseo.flow.network.request.signin.Request;
 import com.donghyeokseo.flow.network.response.signin.Response;
 
 import java.util.Objects;
-import java.util.regex.Pattern;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.Callback;
+
+import static com.donghyeokseo.flow.Util.encryption;
+import static com.donghyeokseo.flow.Util.isSchoolEmail;
 
 public class SignInActivity extends AppCompatActivity {
     SignInService signInService;
@@ -42,19 +45,23 @@ public class SignInActivity extends AppCompatActivity {
     @OnClick(R.id.login_submit_button)
     public void OnLoginSubmitBtnClicked(View view) {
         String email = emailTv.getText().toString().trim();
-        String password = passwordTv.toString().trim();
+        String password = passwordTv.getText().toString().trim();
+        Log.e("signIn pwd", password);
         if (!isSchoolEmail(email)) {
             Toast.makeText(this, "올바른 이메일 형식이 아닙니다!", Toast.LENGTH_SHORT).show();
         }
-        Request request = new Request(email, password);
+        Request request = new Request(email, encryption(password));
         sendPost(request);
     }
 
-    public boolean isSchoolEmail(String email) {
-        return email != null && Pattern.matches("[\\w\\~\\-\\.]+@(dgsw\\.hs\\.kr)+$", email);
+    @OnClick(R.id.link_signup)
+    public void linkSignupClicked(View view) {
+        startActivity(new Intent(SignInActivity.this, SignUpActivity.class));
+        finish();
     }
 
     public void sendPost(Request request) {
+        Log.e("signin", request.getPw());
         signInService.signIn(request).enqueue(new Callback<Response>() {
             @Override
             public void onResponse(@NonNull Call<Response> call,
@@ -63,15 +70,26 @@ public class SignInActivity extends AppCompatActivity {
                     if (Objects.requireNonNull(response.body()).getStatus() == 200) {
                         DatabaseHelper databaseHelper = new DatabaseHelper(
                                 SignInActivity.this);
-                        databaseHelper.insertToken(Objects.requireNonNull(response.body()).getData().getToken());
+
+                        databaseHelper.insertToken(Objects.requireNonNull(response.body()).
+                                getData().getToken());
+
+                        Toast.makeText(SignInActivity.this,
+                                Objects.requireNonNull(response.body()).getMessage(),
+                                Toast.LENGTH_SHORT).show();
+
                         startActivity(new Intent(SignInActivity.this,
                                 MainActivity.class));
+
+                        finish();
                     } else {
-                        Toast.makeText(SignInActivity.this, Objects.requireNonNull(response.body()).getMessage(),
+                        Toast.makeText(SignInActivity.this,
+                                Objects.requireNonNull(response.body()).getMessage(),
                                 Toast.LENGTH_SHORT).show();
                     }
                 }
             }
+
             @Override
             public void onFailure(@NonNull Call<Response> call, @NonNull Throwable t) {
                 Toast.makeText(SignInActivity.this, "서버에서 응답을 받지 못했습니다",
