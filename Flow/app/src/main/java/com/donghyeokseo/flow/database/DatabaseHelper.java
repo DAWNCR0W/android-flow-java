@@ -1,7 +1,9 @@
 package com.donghyeokseo.flow.database;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.CursorIndexOutOfBoundsException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
@@ -36,27 +38,30 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public String getToken() {
+        String result;
         String query = "SELECT Token FROM Token ORDER BY idx DESC LIMIT 1;";
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = db.rawQuery(query, null);
         cursor.moveToNext();
-        String result = cursor.getString(1);
+        try {
+            result = cursor.getString(0);
+            Log.e("token", result);
+        } catch (CursorIndexOutOfBoundsException exception) {
+            result = "";
+            Log.e("database error", exception.getMessage());
+        }
         cursor.close();
         db.close();
         return result;
     }
 
     public void insertToken(final String token) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                String query = "INSERT INTO Token (token) VALUES (" + token + ")";
-                SQLiteDatabase db = getReadableDatabase();
-                Cursor cursor = db.rawQuery(query, null);
-                cursor.close();
-                db.close();
-                Log.i("Token", "insert token success");
-            }
-        });
+        new Thread(() -> {
+            final SQLiteDatabase db = this.getWritableDatabase();
+            final ContentValues contentValues = new ContentValues();
+            contentValues.put("token", token);
+            db.insert("token", null, contentValues);
+            Log.e("token data inserted", token);
+        }).run();
     }
 }

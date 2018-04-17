@@ -54,7 +54,7 @@ public class SignUpActivity extends AppCompatActivity {
     private int classIdx = 0;
     private int classNumber = 0;
 
-    SignUpService signUpService = new RetrofitApi().getSignUpService();
+    SignUpService signUpService = new RetrofitApi(SignUpActivity.this).getSignUpService();
 
     @OnClick(R.id.link_login)
     public void loginLinkClicked() {

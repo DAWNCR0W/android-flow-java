@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.donghyeokseo.flow.R;
 import com.donghyeokseo.flow.Util;
+import com.donghyeokseo.flow.delegate.OnParseMealProgress;
 import com.donghyeokseo.flow.school.SchoolMenu;
 
 import java.text.SimpleDateFormat;
@@ -25,7 +26,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class PlaceholderFragment extends Fragment {
+public class PlaceholderFragment extends Fragment implements OnParseMealProgress{
+
     public static boolean anotherMonth;
 
     /**
@@ -121,6 +123,7 @@ public class PlaceholderFragment extends Fragment {
         ButterKnife.bind(this, rootView);
         final List<SchoolMenu> mealInfo = getArguments().getParcelableArrayList("mealInfo");
         int year, month, day;
+
         year = getArguments().getInt("year");
         month = getArguments().getInt("month");
         day = getArguments().getInt("day");
@@ -135,6 +138,7 @@ public class PlaceholderFragment extends Fragment {
             dateTv.setText(year + "년 " + month + "월 " +
                     getArguments().getInt(ARG_SECTION_NUMBER) + "일");
         }
+
         setBreakfastBtnClicked(breakfastBtn);
         if (!anotherMonth) {
             //오늘
@@ -162,6 +166,12 @@ public class PlaceholderFragment extends Fragment {
             }
         }
         return rootView;
+    }
+
+    public void onParseMeal() {
+        breakfastContentTv.setText("급식정보 받아오는중");
+        lunchContentTv.setText("급식정보 받아오는중");
+        dinnerContentTv.setText("급식정보 받아오는중");
     }
 
     @OnClick(R.id.breakfast_button)

@@ -27,14 +27,23 @@ public class MainActivity extends AppCompatActivity {
         startActivity(mealIntent);
     }
 
-    @OnClick(R.id.apply_out_button)
-    public void OnApplyOutBtnClicked(View view) {
-//        Intent outIntent new Intent(this, )
+    @OnClick(R.id.apply_out_go_button)
+    public void OnApplyOutGoBtnClicked(View view) {
+        Intent i = new Intent(this, OutActivity.class);
+        i.putExtra("IsSleep", false);
+        startActivity(i);
+    }
+
+    @OnClick(R.id.apply_out_sleep_button)
+    public void OnApplyOutSleepButtonClicked(View view) {
+        Intent i = new Intent(this, OutActivity.class);
+        i.putExtra("IsSleep", true);
+        startActivity(i);
     }
 
     @OnClick(R.id.login_button)
     public void OnLoginBtnClicked(View view) {
-        Intent loginIntent = new Intent(this, SignInActivity.class);
-        startActivity(loginIntent);
+        Intent i = new Intent(this, OutActivity.class);
+        startActivity(i);
     }
 }

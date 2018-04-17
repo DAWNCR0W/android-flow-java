@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -36,7 +35,7 @@ public class SignInActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        signInService = new RetrofitApi().getSignInService();
+        signInService = new RetrofitApi(SignInActivity.this).getSignInService();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
         ButterKnife.bind(this);
@@ -46,7 +45,6 @@ public class SignInActivity extends AppCompatActivity {
     public void OnLoginSubmitBtnClicked(View view) {
         String email = emailTv.getText().toString().trim();
         String password = passwordTv.getText().toString().trim();
-        Log.e("signIn pwd", password);
         if (!isSchoolEmail(email)) {
             Toast.makeText(this, "올바른 이메일 형식이 아닙니다!", Toast.LENGTH_SHORT).show();
         }
@@ -61,7 +59,6 @@ public class SignInActivity extends AppCompatActivity {
     }
 
     public void sendPost(Request request) {
-        Log.e("signin", request.getPw());
         signInService.signIn(request).enqueue(new Callback<Response>() {
             @Override
             public void onResponse(@NonNull Call<Response> call,

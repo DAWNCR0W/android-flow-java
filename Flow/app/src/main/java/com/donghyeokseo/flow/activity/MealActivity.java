@@ -14,9 +14,10 @@ import android.widget.DatePicker;
 
 import com.donghyeokseo.flow.R;
 import com.donghyeokseo.flow.adapter.SectionsPagerAdapter;
+import com.donghyeokseo.flow.delegate.OnParseMealProgress;
 import com.donghyeokseo.flow.fragment.PlaceholderFragment;
-import com.donghyeokseo.flow.network.interfaces.MealDelegate;
 import com.donghyeokseo.flow.network.GetMealInfo;
+import com.donghyeokseo.flow.network.interfaces.MealDelegate;
 import com.donghyeokseo.flow.school.SchoolMenu;
 
 import java.util.ArrayList;
@@ -24,7 +25,8 @@ import java.util.Calendar;
 import java.util.List;
 
 public class MealActivity extends AppCompatActivity implements MealDelegate,
-        DatePickerDialog.OnDateSetListener {
+        DatePickerDialog.OnDateSetListener, OnParseMealProgress {
+
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private List<SchoolMenu> mealInfo = new ArrayList<>();
     private DatePickerDialog.OnDateSetListener dateSetListener = this;
@@ -65,6 +67,7 @@ public class MealActivity extends AppCompatActivity implements MealDelegate,
         };
         GetMealInfo getMealInfo = new GetMealInfo();
         getMealInfo.mealDelegate = this;
+        getMealInfo.onParseMealProgress = this;
         getMealInfo.execute(asyncParameters);
     }
 
@@ -123,6 +126,23 @@ public class MealActivity extends AppCompatActivity implements MealDelegate,
     }
 
     @Override
+    public void onParseMeal() {
+        if (PlaceholderFragment.anotherMonth) {
+            SchoolMenu schoolMenu = new SchoolMenu();
+            schoolMenu.breakfast = "급식정보 받아오는중";
+            schoolMenu.lunch = "급식정보 받아오는중";
+            schoolMenu.dinner = "급식정보 받아오는중";
+            ArrayList<SchoolMenu> schoolMenus = new ArrayList<>();
+            for (int i = 0; i < 31; i++)
+                schoolMenus.add(schoolMenu);
+
+            mealInfo = schoolMenus;
+            mSectionsPagerAdapter.mealInfo = mealInfo;
+            mSectionsPagerAdapter.notifyDataSetChanged();
+        }
+    }
+
+    @Override
     public void processFinish(List<SchoolMenu> mealInfo) {
         this.mealInfo = mealInfo;
         mSectionsPagerAdapter.mealInfo = mealInfo;
@@ -141,6 +161,7 @@ public class MealActivity extends AppCompatActivity implements MealDelegate,
             this.month = monthOfYear + 1;
             this.day = dayOfMonth;
         }
+
         setMealInfo();
         setFragment();
     }

@@ -2,6 +2,7 @@ package com.donghyeokseo.flow.network;
 
 import android.os.AsyncTask;
 
+import com.donghyeokseo.flow.delegate.OnParseMealProgress;
 import com.donghyeokseo.flow.network.interfaces.MealDelegate;
 import com.donghyeokseo.flow.school.School;
 import com.donghyeokseo.flow.school.SchoolException;
@@ -16,6 +17,13 @@ import java.util.List;
 public class GetMealInfo extends AsyncTask<Object, Void, List<SchoolMenu>> {
     private final School api = new School(School.Type.HIGH, School.Region.DAEGU, "D100000282");
     public MealDelegate mealDelegate = null;
+    public OnParseMealProgress onParseMealProgress = null;
+
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+        onParseMealProgress.onParseMeal();
+    }
 
     @Override
     protected List<SchoolMenu> doInBackground(Object[] objects) {
