@@ -15,4 +15,13 @@ public class DatabaseTableHelper {
                     "breakfast TEXT, " +
                     "lunch TEXT, " +
                     "dinner TEXT )";
+
+    public final String OutTable =
+            "CREATE TABLE Out (" +
+                    "idx INTEGER PRIMARY KEY, " +
+                    "is_out_go TINYINT, " +
+                    "start_date TEXT, " +
+                    "end_date TEXT, " +
+                    "reason TEXT, " +
+                    "is_confirmed TINYINT )";
 }

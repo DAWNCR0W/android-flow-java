@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick(R.id.login_button)
     public void OnLoginBtnClicked(View view) {
-        Intent i = new Intent(this, OutActivity.class);
+        Intent i = new Intent(this, SignInActivity.class);
         startActivity(i);
     }
 }

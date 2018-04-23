@@ -19,9 +19,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:editable="false"
         android:ems="10"
         android:focusable="false"
-        android:inputType="date"
+        android:hint="클릭하여 설정하기"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textview_start_out_time" />
@@ -41,9 +42,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:editable="false"
         android:ems="10"
         android:focusable="false"
-        android:inputType="date"
+        android:hint="클릭하여 설정하기"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textview_end_out_time" />

@@ -1,26 +1,24 @@
 package com.donghyeokseo.flow.network.request.outgo;
 
-import java.sql.Timestamp;
-
 public class Request {
-    private Timestamp startTime;
-    private Timestamp endTime;
+    private String start_time;
+    private String end_time;
     private String reason;
 
-    public Timestamp getStartTime() {
-        return startTime;
+    public String getStartTime() {
+        return start_time;
     }
 
-    public void setStartTime(Timestamp value) {
-        this.startTime = value;
+    public void setStartTime(String value) {
+        this.start_time = value;
     }
 
-    public Timestamp getEndTime() {
-        return endTime;
+    public String getEndTime() {
+        return end_time;
     }
 
-    public void setEndTime(Timestamp value) {
-        this.endTime = value;
+    public void setEndTime(String value) {
+        this.end_time = value;
     }
 
     public String getReason() {
