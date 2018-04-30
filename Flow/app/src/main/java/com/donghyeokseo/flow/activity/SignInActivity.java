@@ -1,11 +1,15 @@
 package com.donghyeokseo.flow.activity;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.donghyeokseo.flow.R;
@@ -26,45 +30,75 @@ import retrofit2.Callback;
 import static com.donghyeokseo.flow.Util.encryption;
 import static com.donghyeokseo.flow.Util.isSchoolEmail;
 
-public class SignInActivity extends AppCompatActivity {
+public final class SignInActivity extends AppCompatActivity {
     SignInService signInService;
     @BindView(R.id.login_email_editText)
     EditText emailTv;
     @BindView(R.id.login_password_editText)
     EditText passwordTv;
+    @BindView(R.id.auto_login_checkBox)
+    CheckBox autoLoginCheckbox;
+    @BindView(R.id.login_progressBar)
+    ProgressBar progressBar;
+
+    private SharedPreferences pref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         signInService = new RetrofitApi(SignInActivity.this).getSignInService();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
         ButterKnife.bind(this);
+
+        pref = getSharedPreferences("Login", Activity.MODE_PRIVATE);
+        autoLoginCheckbox.setChecked(pref.getBoolean("autoLogin", false));
+        emailTv.setText(pref.getString("id", ""));
+        passwordTv.setText(pref.getString("pw", ""));
+
+        if (autoLoginCheckbox.isChecked() && !pref.getBoolean("isReLogin", false)) {
+
+            progressBar.setVisibility(View.VISIBLE);
+            login();
+        }
+
     }
 
     @OnClick(R.id.login_submit_button)
     public void OnLoginSubmitBtnClicked(View view) {
+        login();
+    }
+
+    private void login() {
         String email = emailTv.getText().toString().trim();
         String password = passwordTv.getText().toString().trim();
-        if (!isSchoolEmail(email)) {
+
+        if (!isSchoolEmail(email))
             Toast.makeText(this, "올바른 이메일 형식이 아닙니다!", Toast.LENGTH_SHORT).show();
-        }
+
         Request request = new Request(email, encryption(password));
+
         sendPost(request);
     }
 
     @OnClick(R.id.link_signup)
     public void linkSignupClicked(View view) {
+
         startActivity(new Intent(SignInActivity.this, SignUpActivity.class));
         finish();
     }
 
     public void sendPost(Request request) {
         signInService.signIn(request).enqueue(new Callback<Response>() {
+
             @Override
             public void onResponse(@NonNull Call<Response> call,
                                    @NonNull retrofit2.Response<Response> response) {
+
                 if (response.isSuccessful()) {
+
                     if (Objects.requireNonNull(response.body()).getStatus() == 200) {
+
                         DatabaseHelper databaseHelper = new DatabaseHelper(
                                 SignInActivity.this);
 
@@ -78,6 +112,8 @@ public class SignInActivity extends AppCompatActivity {
                         startActivity(new Intent(SignInActivity.this,
                                 MainActivity.class));
 
+                        saveLogin();
+
                         finish();
                     } else {
                         Toast.makeText(SignInActivity.this,
@@ -85,13 +121,32 @@ public class SignInActivity extends AppCompatActivity {
                                 Toast.LENGTH_SHORT).show();
                     }
                 }
+
+                progressBar.setVisibility(View.GONE);
             }
 
             @Override
             public void onFailure(@NonNull Call<Response> call, @NonNull Throwable t) {
+
                 Toast.makeText(SignInActivity.this, "서버에서 응답을 받지 못했습니다",
                         Toast.LENGTH_SHORT).show();
+
+                progressBar.setVisibility(View.GONE);
             }
         });
+    }
+
+    private void saveLogin() {
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putString("id", emailTv.getText().toString());
+        editor.putString("pw", passwordTv.getText().toString());
+        editor.putBoolean("autoLogin", autoLoginCheckbox.isChecked());
+        editor.apply();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        pref.edit().putBoolean("isReLogin", false).apply();
     }
 }

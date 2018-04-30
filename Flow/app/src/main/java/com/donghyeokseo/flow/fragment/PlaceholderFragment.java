@@ -26,7 +26,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class PlaceholderFragment extends Fragment implements OnParseMealProgress{
+public final class PlaceholderFragment extends Fragment implements OnParseMealProgress{
 
     public static boolean anotherMonth;
 

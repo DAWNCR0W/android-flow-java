@@ -1,6 +1,6 @@
 package com.donghyeokseo.flow.database;
 
-public class DatabaseTableHelper {
+public final class DatabaseTableHelper {
     public final String TokenTable =
             "CREATE TABLE Token ( " +
                     "idx INTEGER PRIMARY KEY, " +
@@ -19,9 +19,8 @@ public class DatabaseTableHelper {
     public final String OutTable =
             "CREATE TABLE Out (" +
                     "idx INTEGER PRIMARY KEY, " +
-                    "is_out_go TINYINT, " +
+                    "status INTEGER, " +
                     "start_date TEXT, " +
                     "end_date TEXT, " +
-                    "reason TEXT, " +
-                    "is_confirmed TINYINT )";
+                    "reason TEXT)";
 }

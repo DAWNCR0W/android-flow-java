@@ -1,6 +1,6 @@
 package com.donghyeokseo.flow.network.response;
 
-public class Failed {
+public final class Failed {
     private Long status;
     private String message;
 

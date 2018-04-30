@@ -1,6 +1,6 @@
 package com.donghyeokseo.flow.network.response.signin;
 
-public class MyClass {
+public final class MyClass {
     private long grade;
     private long myClassClass;
     private long class_number;

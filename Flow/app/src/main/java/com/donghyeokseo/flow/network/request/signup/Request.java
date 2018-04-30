@@ -1,6 +1,6 @@
 package com.donghyeokseo.flow.network.request.signup;
 
-public class Request {
+public final class Request {
     private String email;
     private String pw;
     private String name;

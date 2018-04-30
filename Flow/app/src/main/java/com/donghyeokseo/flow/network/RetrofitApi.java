@@ -2,6 +2,7 @@ package com.donghyeokseo.flow.network;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.donghyeokseo.flow.Util;
 import com.donghyeokseo.flow.database.DatabaseHelper;
@@ -10,6 +11,7 @@ import com.donghyeokseo.flow.network.interfaces.SignInService;
 import com.donghyeokseo.flow.network.interfaces.SignUpService;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -18,7 +20,7 @@ import okhttp3.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class RetrofitApi {
+public final class RetrofitApi {
     private Retrofit retrofit = null;
     private String token;
 
@@ -31,17 +33,17 @@ public class RetrofitApi {
     private Retrofit getClient() {
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
 
-        httpClient.addInterceptor(new Interceptor() {
-            @Override
-            public Response intercept(@NonNull Chain chain) throws IOException {
-                Request request = chain
-                        .request()
-                        .newBuilder()
-                        .addHeader("x-access-token", token)
-                        .build();
-                return chain.proceed(request);
-            }
+        httpClient.addInterceptor(chain -> {
+            Request request = chain
+                    .request()
+                    .newBuilder()
+                    .addHeader("x-access-token", token)
+                    .build();
+            return chain.proceed(request);
         });
+
+        httpClient.connectTimeout(1000, TimeUnit.MILLISECONDS);
+        httpClient.readTimeout(1000, TimeUnit.MILLISECONDS);
 
         if (retrofit == null) {
             retrofit = new Retrofit.Builder()

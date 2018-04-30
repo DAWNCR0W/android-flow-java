@@ -1,6 +1,6 @@
 package com.donghyeokseo.flow.network.response.signin;
 
-public class User {
+public final class User {
     private String email;
     private String name;
     private String gender;

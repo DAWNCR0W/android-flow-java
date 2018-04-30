@@ -14,7 +14,7 @@ import java.util.List;
  * Created by dawncrow on 2018. 3. 13..
  */
 
-public class GetMealInfo extends AsyncTask<Object, Void, List<SchoolMenu>> {
+public final class GetMealInfo extends AsyncTask<Object, Void, List<SchoolMenu>> {
     private final School api = new School(School.Type.HIGH, School.Region.DAEGU, "D100000282");
     public MealDelegate mealDelegate = null;
     public OnParseMealProgress onParseMealProgress = null;

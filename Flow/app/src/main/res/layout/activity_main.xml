@@ -38,13 +38,23 @@
         app:layout_constraintTop_toBottomOf="@+id/apply_out_go_button" />
 
     <Button
-        android:id="@+id/login_button"
+        android:id="@+id/out_check_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="로그인 하기"
+        android:text="외출/외박 신청 확인하기"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/apply_out_sleep_button" />
+
+    <Button
+        android:id="@+id/relogin_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="다른 아이디로 로그인하기"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/out_check_button" />
 
 </android.support.constraint.ConstraintLayout>

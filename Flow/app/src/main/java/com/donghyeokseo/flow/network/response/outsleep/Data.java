@@ -1,6 +1,6 @@
 package com.donghyeokseo.flow.network.response.outsleep;
 
-public class Data {
+public final class Data {
     private SleepOut sleep_out;
 
     public SleepOut getSleepOut() {

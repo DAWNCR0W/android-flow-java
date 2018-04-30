@@ -1,7 +1,7 @@
 package com.donghyeokseo.flow.network.request.outsleep;
 
 
-public class Request {
+public final class Request {
     private String start_time;
     private String end_time;
     private String reason;

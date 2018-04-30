@@ -1,6 +1,6 @@
 package com.donghyeokseo.flow.network.response.outsleep;
 
-public class Response {
+public final class Response {
     private Long status;
     private String message;
     private Data data;

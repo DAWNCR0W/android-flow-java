@@ -33,7 +33,7 @@ import static com.donghyeokseo.flow.Util.hasSpecialCharacter;
 import static com.donghyeokseo.flow.Util.isSchoolEmail;
 import static com.donghyeokseo.flow.Util.isValidPassword;
 
-public class SignUpActivity extends AppCompatActivity {
+public final class SignUpActivity extends AppCompatActivity {
     @BindView(R.id.input_name)
     EditText inputName;
     @BindView(R.id.input_email)

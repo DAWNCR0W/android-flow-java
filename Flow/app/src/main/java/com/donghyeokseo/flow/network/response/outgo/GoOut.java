@@ -2,7 +2,7 @@ package com.donghyeokseo.flow.network.response.outgo;
 
 import java.sql.Timestamp;
 
-public class GoOut {
+public final class GoOut {
     private Long accept;
     private Long idx;
     private Timestamp start_time;

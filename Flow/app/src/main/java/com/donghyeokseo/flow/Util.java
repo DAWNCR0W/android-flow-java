@@ -12,7 +12,16 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.regex.Pattern;
 
-public class Util {
+public final class Util {
+
+    //out list status code
+    public static final int OUTGO_APPROVED = 1;
+    public static final int OUTGO_DECLINED = 2;
+    public static final int OUTGO_REQUESTED = 3;
+    public static final int OUTSLEEP_APPROVED = 4;
+    public static final int OUTSLEEP_DECLINED = 5;
+    public static final int OUTSLEEP_REQUESTED = 6;
+
     public static int deviceNavbarHeight = 0;
     public static String SERVER_HOST = "http://flow.cafe24app.com/";
 

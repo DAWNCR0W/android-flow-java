@@ -2,7 +2,7 @@ package com.donghyeokseo.flow.network.response.outsleep;
 
 import java.sql.Timestamp;
 
-public class SleepOut {
+public final class SleepOut {
     private Long accept;
     private Long idx;
     private Timestamp start_time;

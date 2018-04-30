@@ -1,6 +1,6 @@
 package com.donghyeokseo.flow.network.request.signin;
 
-public class Request {
+public final class Request {
     private String email;
     private String pw;
 

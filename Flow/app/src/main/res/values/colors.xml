@@ -7,4 +7,7 @@
     <color name="colorGray">#cbd1db</color>
     <color name="buttonBeforeClick">#ffffff</color>
     <color name="buttonAfterClick">#9896a4</color>
+    <color name="approved">#BFFCC6</color>
+    <color name="declined">#FFABAB</color>
+    <color name="requested">#EFF58A</color>
 </resources>

@@ -1,6 +1,6 @@
 package com.donghyeokseo.flow.network.response.outgo;
 
-public class Data {
+public final class Data {
     private GoOut go_out;
 
     public GoOut getGoOut() {

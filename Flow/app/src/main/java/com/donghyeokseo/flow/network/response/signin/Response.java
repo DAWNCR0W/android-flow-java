@@ -1,6 +1,6 @@
 package com.donghyeokseo.flow.network.response.signin;
 
-public class Response {
+public final class Response {
     private long status;
     private String message;
     private Data data;

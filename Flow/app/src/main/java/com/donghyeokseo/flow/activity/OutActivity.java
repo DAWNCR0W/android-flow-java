@@ -15,6 +15,9 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.donghyeokseo.flow.R;
+import com.donghyeokseo.flow.Util;
+import com.donghyeokseo.flow.database.DatabaseHelper;
+import com.donghyeokseo.flow.model.Out;
 import com.donghyeokseo.flow.network.RetrofitApi;
 import com.donghyeokseo.flow.network.interfaces.OutService;
 
@@ -31,7 +34,7 @@ import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.Callback;
 
-public class OutActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
+public final class OutActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
     private boolean isStart;
 
@@ -40,6 +43,10 @@ public class OutActivity extends AppCompatActivity implements DatePickerDialog.O
     private Timestamp currentTime = new Timestamp(System.currentTimeMillis());
 
     private boolean isSleep = false;
+
+    private Out out = new Out();
+
+    private DatabaseHelper databaseHelper;
 
     final String DATE_FORMAT = "yyyy-MM-dd HH:mm";
 
@@ -62,6 +69,7 @@ public class OutActivity extends AppCompatActivity implements DatePickerDialog.O
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_out);
         ButterKnife.bind(this);
+        databaseHelper = new DatabaseHelper(this);
         isSleep = getIntent().getBooleanExtra("IsSleep", false);
         if (isSleep)
             setOutSleep();
@@ -129,6 +137,10 @@ public class OutActivity extends AppCompatActivity implements DatePickerDialog.O
                 request.setStartTime(new SimpleDateFormat(DATE_FORMAT, Locale.KOREA)
                         .format(new SimpleDateFormat(DATE_FORMAT, Locale.KOREA).parse(startTimeStr)));
                 request.setReason(reason);
+                out.setStatusCode(Util.OUTSLEEP_REQUESTED);
+                out.setReason(request.getReason());
+                out.setEndTime(request.getEndTime());
+                out.setStartTime(request.getStartTime());
             } catch (Exception ignored) {
             }
             sendOutSleepPost(request);
@@ -141,6 +153,10 @@ public class OutActivity extends AppCompatActivity implements DatePickerDialog.O
                 request.setStartTime(new SimpleDateFormat(DATE_FORMAT, Locale.KOREA)
                         .format(new SimpleDateFormat(DATE_FORMAT, Locale.KOREA).parse(startTimeStr)));
                 request.setReason(reason);
+                out.setStatusCode(Util.OUTGO_REQUESTED);
+                out.setReason(request.getReason());
+                out.setEndTime(request.getEndTime());
+                out.setStartTime(request.getStartTime());
             } catch (Exception ignored) {
             }
             sendOutGoPost(request);
@@ -183,6 +199,7 @@ public class OutActivity extends AppCompatActivity implements DatePickerDialog.O
                                 Objects.requireNonNull(response.body()).getMessage(),
                                 Toast.LENGTH_SHORT).show();
                         if (Objects.requireNonNull(response.body()).getStatus() == 200) {
+                            databaseHelper.insertOut(out);
                             startActivity(new Intent(OutActivity.this, MainActivity.class));
                             finish();
                         }
@@ -213,6 +230,7 @@ public class OutActivity extends AppCompatActivity implements DatePickerDialog.O
                                 Objects.requireNonNull(response.body()).getMessage(),
                                 Toast.LENGTH_SHORT).show();
                         if (Objects.requireNonNull(response.body()).getStatus() == 200) {
+                            databaseHelper.insertOut(out);
                             startActivity(new Intent(OutActivity.this, MainActivity.class));
                             finish();
                         }

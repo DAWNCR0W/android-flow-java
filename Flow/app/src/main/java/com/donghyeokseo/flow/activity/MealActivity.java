@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class MealActivity extends AppCompatActivity implements MealDelegate,
+public final class MealActivity extends AppCompatActivity implements MealDelegate,
         DatePickerDialog.OnDateSetListener, OnParseMealProgress {
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
