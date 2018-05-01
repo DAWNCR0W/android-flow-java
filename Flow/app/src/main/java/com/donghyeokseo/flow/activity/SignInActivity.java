@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -45,8 +46,22 @@ public final class SignInActivity extends AppCompatActivity {
 
     private SharedPreferences pref;
 
+
+
+    @Override
+    protected void onStop() {
+
+        Log.e("서동혁", "Main : OnStop()");
+
+        super.onStop();
+
+        pref.edit().putBoolean("isReLogin", false).apply();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        Log.e("서동혁", "Main : OnCreate()");
 
         signInService = new RetrofitApi(SignInActivity.this).getSignInService();
 
@@ -150,13 +165,5 @@ public final class SignInActivity extends AppCompatActivity {
         editor.putString("pw", passwordTv.getText().toString());
         editor.putBoolean("autoLogin", autoLoginCheckbox.isChecked());
         editor.apply();
-    }
-
-    @Override
-    protected void onStop() {
-
-        super.onStop();
-
-        pref.edit().putBoolean("isReLogin", false).apply();
     }
 }

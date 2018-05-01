@@ -4,6 +4,7 @@
     android:id="@+id/meal_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background_gradient"
     tools:context="com.donghyeokseo.flow.activity.MealActivity$PlaceholderFragment">
 
     <TextView
@@ -116,7 +117,7 @@
     <LinearLayout
         android:id="@+id/bottom_button_linear"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -125,25 +126,28 @@
         <Button
             android:id="@+id/breakfast_button"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@color/buttonBeforeClick"
+            android:backgroundTint="#FFB900"
             android:text="@string/breakfast_title" />
 
         <Button
             android:id="@+id/lunch_button"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@color/buttonBeforeClick"
+            android:backgroundTint="#FFA900"
             android:text="@string/lunch_title" />
 
         <Button
             android:id="@+id/dinner_button"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@color/buttonBeforeClick"
+            android:backgroundTint="#FF9900"
             android:text="@string/dinner_title" />
 
     </LinearLayout>

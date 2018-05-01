@@ -6,8 +6,10 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.donghyeokseo.flow.R;
 import com.donghyeokseo.flow.Util;
@@ -20,13 +22,14 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
+import butterknife.BindAnim;
 import butterknife.BindColor;
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public final class PlaceholderFragment extends Fragment implements OnParseMealProgress{
+public final class PlaceholderFragment extends Fragment implements OnParseMealProgress {
 
     public static boolean anotherMonth;
 
@@ -49,6 +52,9 @@ public final class PlaceholderFragment extends Fragment implements OnParseMealPr
     int afterClick;
     @BindColor(R.color.buttonBeforeClick)
     int beforeClick;
+
+    @BindAnim(R.anim.fade_in3)
+    Animation fadeIn;
 
     //스트링
     @BindString(R.string.breakfast_title)
@@ -115,12 +121,21 @@ public final class PlaceholderFragment extends Fragment implements OnParseMealPr
 
             case 0:
                 setBreakfastBtnClicked(breakfastBtn);
+                stopAnimation();
+                breakfastContentTv.startAnimation(fadeIn);
+                breakfastTitleTv.startAnimation(fadeIn);
                 break;
             case 1:
                 setLunchBtnClicked(lunchBtn);
+                stopAnimation();
+                lunchContentTv.startAnimation(fadeIn);
+                lunchTitleTv.startAnimation(fadeIn);
                 break;
             case 2:
                 setDinnerBtnClicked(dinnerBtn);
+                stopAnimation();
+                dinnerContentTv.startAnimation(fadeIn);
+                dinnerTitleTv.startAnimation(fadeIn);
                 break;
         }
     }
@@ -143,16 +158,22 @@ public final class PlaceholderFragment extends Fragment implements OnParseMealPr
         month = getArguments().getInt("month");
         day = getArguments().getInt("day");
 
-        if (!Objects.requireNonNull(mealInfo).isEmpty()) {
+        try {
 
-            breakfastContentTv.setText(
-                    mealInfo.get(getArguments().getInt(ARG_SECTION_NUMBER) - 1).breakfast);
-            lunchContentTv.setText(
-                    mealInfo.get(getArguments().getInt(ARG_SECTION_NUMBER) - 1).lunch);
-            dinnerContentTv.setText(
-                    mealInfo.get(getArguments().getInt(ARG_SECTION_NUMBER) - 1).dinner);
-            dateTv.setText(year + "년 " + month + "월 " +
-                    getArguments().getInt(ARG_SECTION_NUMBER) + "일");
+            if (!mealInfo.isEmpty()) {
+
+                breakfastContentTv.setText(
+                        mealInfo.get(getArguments().getInt(ARG_SECTION_NUMBER) - 1).breakfast);
+                lunchContentTv.setText(
+                        mealInfo.get(getArguments().getInt(ARG_SECTION_NUMBER) - 1).lunch);
+                dinnerContentTv.setText(
+                        mealInfo.get(getArguments().getInt(ARG_SECTION_NUMBER) - 1).dinner);
+                dateTv.setText(year + "년 " + month + "월 " +
+                        getArguments().getInt(ARG_SECTION_NUMBER) + "일");
+            }
+        } catch (Exception e) {
+
+            Toast.makeText(getContext(), "서버에서 정보를 불러올 수 없습니다!", Toast.LENGTH_SHORT).show();
         }
 
         setBreakfastBtnClicked(breakfastBtn);
@@ -201,8 +222,20 @@ public final class PlaceholderFragment extends Fragment implements OnParseMealPr
         dinnerContentTv.setText("급식정보 받아오는중");
     }
 
+    private void stopAnimation() {
+
+        breakfastContentTv.clearAnimation();
+        lunchContentTv.clearAnimation();
+        dinnerContentTv.clearAnimation();
+        breakfastTitleTv.clearAnimation();
+        lunchTitleTv.clearAnimation();
+        dinnerTitleTv.clearAnimation();
+    }
+
     @OnClick(R.id.breakfast_button)
     public void setBreakfastBtnClicked(View view) {
+
+        stopAnimation();
 
         view.setBackgroundColor(afterClick);
 
@@ -217,10 +250,15 @@ public final class PlaceholderFragment extends Fragment implements OnParseMealPr
         breakfastTitleTv.setVisibility(View.VISIBLE);
         lunchTitleTv.setVisibility(View.GONE);
         dinnerTitleTv.setVisibility(View.GONE);
+
+        breakfastContentTv.startAnimation(fadeIn);
+        breakfastTitleTv.startAnimation(fadeIn);
     }
 
     @OnClick(R.id.lunch_button)
     public void setLunchBtnClicked(View view) {
+
+        stopAnimation();
 
         view.setBackgroundColor(afterClick);
 
@@ -235,12 +273,18 @@ public final class PlaceholderFragment extends Fragment implements OnParseMealPr
         breakfastTitleTv.setVisibility(View.GONE);
         lunchTitleTv.setVisibility(View.VISIBLE);
         dinnerTitleTv.setVisibility(View.GONE);
+
+        lunchContentTv.startAnimation(fadeIn);
+        lunchTitleTv.startAnimation(fadeIn);
     }
 
     @OnClick(R.id.dinner_button)
     public void setDinnerBtnClicked(View view) {
 
+        stopAnimation();
+
         view.setBackgroundColor(afterClick);
+
         breakfastBtn.setBackgroundColor(beforeClick);
         lunchBtn.setBackgroundColor(beforeClick);
 
@@ -252,5 +296,8 @@ public final class PlaceholderFragment extends Fragment implements OnParseMealPr
         breakfastTitleTv.setVisibility(View.GONE);
         lunchTitleTv.setVisibility(View.GONE);
         dinnerTitleTv.setVisibility(View.VISIBLE);
+
+        dinnerContentTv.startAnimation(fadeIn);
+        dinnerTitleTv.startAnimation(fadeIn);
     }
 }
