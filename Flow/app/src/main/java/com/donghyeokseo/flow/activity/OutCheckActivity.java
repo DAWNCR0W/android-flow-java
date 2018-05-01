@@ -21,11 +21,13 @@ public final class OutCheckActivity extends Activity {
     private List<Out> outList;
     private DatabaseHelper databaseHelper;
     private OutCheckRecyclerAdapter outCheckRecyclerAdapter;
+
     @BindView(R.id.out_check_recyclerview)
     RecyclerView mOutCheckRecyclerview;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_out_check);
         ButterKnife.bind(this);
@@ -34,16 +36,23 @@ public final class OutCheckActivity extends Activity {
 
         initList();
 
-        outCheckRecyclerAdapter = new OutCheckRecyclerAdapter(outList);
+        outCheckRecyclerAdapter = new OutCheckRecyclerAdapter(outList, OutCheckActivity.this);
         mOutCheckRecyclerview.setAdapter(outCheckRecyclerAdapter);
         mOutCheckRecyclerview.setLayoutManager(new LinearLayoutManager(this));
     }
 
     private void initList() {
+
         outList = databaseHelper.getOuts();
-        if (!outList.isEmpty()) {
-            outCheckRecyclerAdapter.notifyDataSetChanged();
-            mOutCheckRecyclerview.notifyAll();
+
+        try {
+
+            if (!outList.isEmpty()) {
+
+                outCheckRecyclerAdapter.notifyDataSetChanged();
+                mOutCheckRecyclerview.notifyAll();
+            }
+        } catch (Exception ignored) {
         }
     }
 }

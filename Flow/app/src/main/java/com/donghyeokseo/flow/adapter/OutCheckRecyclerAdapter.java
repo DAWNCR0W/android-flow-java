@@ -1,9 +1,11 @@
 package com.donghyeokseo.flow.adapter;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
 import com.donghyeokseo.flow.R;
@@ -16,15 +18,20 @@ public final class OutCheckRecyclerAdapter extends RecyclerView.Adapter {
 
     private List<Out> outList;
 
+    private Context context;
 
-    public OutCheckRecyclerAdapter(List<Out> outList) {
+    public OutCheckRecyclerAdapter(List<Out> outList, Context context) {
         this.outList = outList;
+        this.context = context;
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
         View view = null;
+
         switch (viewType) {
+
             case Util.OUTGO_APPROVED:
                 view = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.item_outgo_approved, parent, false);
@@ -56,30 +63,39 @@ public final class OutCheckRecyclerAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+
         ((OutViewHolder) holder).bind(outList.get(position));
     }
 
     @Override
     public int getItemCount() {
+
         return outList.size();
     }
 
     @Override
     public int getItemViewType(int position) {
+
         return outList.get(position).getStatusCode();
     }
 
     private class OutViewHolder extends RecyclerView.ViewHolder {
+
         TextView reasonTv, startTimeTv, endTimeTv;
 
         OutViewHolder(View itemView) {
+
             super(itemView);
+
+            itemView.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_in4));
+
             reasonTv = itemView.findViewById(R.id.textview_item_out_reason);
             startTimeTv = itemView.findViewById(R.id.textview_item_out_start);
             endTimeTv = itemView.findViewById(R.id.textview_item_out_end);
         }
 
         void bind(Out out) {
+
             reasonTv.setText(out.getReason());
             startTimeTv.setText(out.getStartTime());
             endTimeTv.setText(out.getEndTime());

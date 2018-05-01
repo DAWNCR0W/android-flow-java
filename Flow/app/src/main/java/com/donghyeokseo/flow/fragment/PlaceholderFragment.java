@@ -83,26 +83,36 @@ public final class PlaceholderFragment extends Fragment implements OnParseMealPr
     TextView dinnerTitleTv;
 
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH");
+
     Date date = new Date();
+
     private static final String ARG_SECTION_NUMBER = "section_number";
 
     public static PlaceholderFragment newInstance(int sectionNumber, int year, int month, int day,
                                                   List<SchoolMenu> mealInfo) {
+
         PlaceholderFragment fragment = new PlaceholderFragment();
+
         Bundle args = new Bundle();
+
         args.putInt("year", year);
         args.putInt("month", month);
         args.putInt("day", day);
         args.putParcelableArrayList("mealInfo", (ArrayList<? extends Parcelable>) mealInfo);
         args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+
         fragment.setArguments(args);
+
         return fragment;
     }
 
     @Override
     public void onResume() {
+
         super.onResume();
+
         switch (btnStatus) {
+
             case 0:
                 setBreakfastBtnClicked(breakfastBtn);
                 break;
@@ -118,10 +128,15 @@ public final class PlaceholderFragment extends Fragment implements OnParseMealPr
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         final View rootView = inflater.inflate(R.layout.fragment_meal, container, false);
+
         rootView.setPadding(0, 0, 0, Util.deviceNavbarHeight);
+
         ButterKnife.bind(this, rootView);
+
         final List<SchoolMenu> mealInfo = getArguments().getParcelableArrayList("mealInfo");
+
         int year, month, day;
 
         year = getArguments().getInt("year");
@@ -129,6 +144,7 @@ public final class PlaceholderFragment extends Fragment implements OnParseMealPr
         day = getArguments().getInt("day");
 
         if (!Objects.requireNonNull(mealInfo).isEmpty()) {
+
             breakfastContentTv.setText(
                     mealInfo.get(getArguments().getInt(ARG_SECTION_NUMBER) - 1).breakfast);
             lunchContentTv.setText(
@@ -141,34 +157,45 @@ public final class PlaceholderFragment extends Fragment implements OnParseMealPr
 
         setBreakfastBtnClicked(breakfastBtn);
         if (!anotherMonth) {
+
             //오늘
             date.setTime(System.currentTimeMillis());
+
             int curHour = Integer.parseInt(simpleDateFormat.format(date));
+
             if (getArguments().getInt(ARG_SECTION_NUMBER) == day) {
+
                 if (!anotherMonth && curHour < 7) {
+
                     //아침 먹기 전
                     setBreakfastBtnClicked(breakfastBtn);
                 } else if (!anotherMonth && curHour < 13) {
+
                     //점심 먹기 전
                     setLunchBtnClicked(lunchBtn);
                 } else if (!anotherMonth && curHour < 19) {
+
                     //저녁 먹기 전
                     setDinnerBtnClicked(dinnerBtn);
                 } else {
+
                     //밥 다 먹었을때
                     breakfastContentTv.setVisibility(View.GONE);
                     lunchContentTv.setVisibility(View.GONE);
                     breakfastTitleTv.setVisibility(View.GONE);
                     lunchTitleTv.setVisibility(View.GONE);
+
                     dinnerContentTv.setText("오늘 밥 다 묵읏넹");
                     dinnerTitleTv.setText("밥 다먹음");
                 }
             }
         }
+
         return rootView;
     }
 
     public void onParseMeal() {
+
         breakfastContentTv.setText("급식정보 받아오는중");
         lunchContentTv.setText("급식정보 받아오는중");
         dinnerContentTv.setText("급식정보 받아오는중");
@@ -176,10 +203,14 @@ public final class PlaceholderFragment extends Fragment implements OnParseMealPr
 
     @OnClick(R.id.breakfast_button)
     public void setBreakfastBtnClicked(View view) {
+
         view.setBackgroundColor(afterClick);
+
         lunchBtn.setBackgroundColor(beforeClick);
         dinnerBtn.setBackgroundColor(beforeClick);
+
         btnStatus = 0;
+
         breakfastContentTv.setVisibility(View.VISIBLE);
         lunchContentTv.setVisibility(View.GONE);
         dinnerContentTv.setVisibility(View.GONE);
@@ -190,10 +221,14 @@ public final class PlaceholderFragment extends Fragment implements OnParseMealPr
 
     @OnClick(R.id.lunch_button)
     public void setLunchBtnClicked(View view) {
+
         view.setBackgroundColor(afterClick);
+
         breakfastBtn.setBackgroundColor(beforeClick);
         dinnerBtn.setBackgroundColor(beforeClick);
+
         btnStatus = 1;
+
         breakfastContentTv.setVisibility(View.GONE);
         lunchContentTv.setVisibility(View.VISIBLE);
         dinnerContentTv.setVisibility(View.GONE);
@@ -204,10 +239,13 @@ public final class PlaceholderFragment extends Fragment implements OnParseMealPr
 
     @OnClick(R.id.dinner_button)
     public void setDinnerBtnClicked(View view) {
+
         view.setBackgroundColor(afterClick);
         breakfastBtn.setBackgroundColor(beforeClick);
         lunchBtn.setBackgroundColor(beforeClick);
+
         btnStatus = 2;
+
         breakfastContentTv.setVisibility(View.GONE);
         lunchContentTv.setVisibility(View.GONE);
         dinnerContentTv.setVisibility(View.VISIBLE);

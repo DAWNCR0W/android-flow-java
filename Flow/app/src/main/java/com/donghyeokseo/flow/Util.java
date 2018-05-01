@@ -26,60 +26,76 @@ public final class Util {
     public static String SERVER_HOST = "http://flow.cafe24app.com/";
 
     public static void getDeviceNavigationBarHeigh(Context context) {
+
         Resources resources = context.getResources();
+
         int resourceId = resources.getIdentifier("navigation_bar_height",
                 "dimen", "android");
-        if (resourceId > 0) {
+
+        if (resourceId > 0)
             deviceNavbarHeight = resources.getDimensionPixelSize(resourceId);
-        }
     }
 
     public static String encryption(String input) {
-        String output = "";
+
+        String output;
+
         StringBuilder sb = new StringBuilder();
 
         MessageDigest md = null;
+
         try {
+
             md = MessageDigest.getInstance("SHA-512");
         } catch (NoSuchAlgorithmException e) {
+
             e.printStackTrace();
         }
 
-        if (md == null) {
+        if (md == null)
             return "";
-        }
 
         md.update(input.getBytes());
 
         byte[] msgb = md.digest();
 
         for (byte temp : msgb) {
+
             StringBuilder str = new StringBuilder(Integer.toHexString(temp & 0xFF));
-            while (str.length() < 2) {
+
+            while (str.length() < 2)
                 str.insert(0, "0");
-            }
+
             str = new StringBuilder(str.substring(str.length() - 2));
+
             sb.append(str);
         }
+
         output = sb.toString();
 
         return output;
     }
 
     public static String inputStreamToString(HttpURLConnection urlConn) throws IOException {
+
         InputStreamReader isr;
+
         try {
+
             isr = new InputStreamReader(urlConn.getErrorStream());
         } catch (Exception e) {
+
             isr = new InputStreamReader(urlConn.getInputStream());
         }
+
         final BufferedReader br = new BufferedReader(isr);
+
         StringBuilder sb = new StringBuilder();
+
         String line;
 
-        while ((line = br.readLine()) != null) {
+        while ((line = br.readLine()) != null)
             sb.append(line).append("\n");
-        }
 
         br.close();
 
@@ -87,22 +103,24 @@ public final class Util {
     }
 
     public static boolean isSchoolEmail(String email) {
+
         return email != null && Pattern.matches("[\\w\\~\\-\\.]+@(dgsw\\.hs\\.kr)+$", email);
     }
 
     public static boolean isValidPassword(String password) {
+
         return password != null && Pattern.matches("^[a-zA-Z0-9!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?~`]{8,16}$", password);
     }
 
     public static boolean hasSpecialCharacter(String string) {
-        if (TextUtils.isEmpty(string)) {
+
+        if (TextUtils.isEmpty(string))
             return false;
-        }
-        for (int i = 0; i < string.length(); i++) {
-            if (!Character.isLetterOrDigit(string.charAt(i))) {
+
+        for (int i = 0; i < string.length(); i++)
+            if (!Character.isLetterOrDigit(string.charAt(i)))
                 return true;
-            }
-        }
+
         return false;
     }
 }

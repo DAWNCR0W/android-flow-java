@@ -1,6 +1,7 @@
 package com.donghyeokseo.flow.database;
 
 public final class DatabaseTableHelper {
+
     public final String TokenTable =
             "CREATE TABLE Token ( " +
                     "idx INTEGER PRIMARY KEY, " +

@@ -31,7 +31,9 @@ import static com.donghyeokseo.flow.Util.encryption;
 import static com.donghyeokseo.flow.Util.isSchoolEmail;
 
 public final class SignInActivity extends AppCompatActivity {
+
     SignInService signInService;
+
     @BindView(R.id.login_email_editText)
     EditText emailTv;
     @BindView(R.id.login_password_editText)
@@ -47,6 +49,7 @@ public final class SignInActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         signInService = new RetrofitApi(SignInActivity.this).getSignInService();
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
         ButterKnife.bind(this);
@@ -59,6 +62,7 @@ public final class SignInActivity extends AppCompatActivity {
         if (autoLoginCheckbox.isChecked() && !pref.getBoolean("isReLogin", false)) {
 
             progressBar.setVisibility(View.VISIBLE);
+
             login();
         }
 
@@ -66,10 +70,12 @@ public final class SignInActivity extends AppCompatActivity {
 
     @OnClick(R.id.login_submit_button)
     public void OnLoginSubmitBtnClicked(View view) {
+
         login();
     }
 
     private void login() {
+
         String email = emailTv.getText().toString().trim();
         String password = passwordTv.getText().toString().trim();
 
@@ -85,10 +91,10 @@ public final class SignInActivity extends AppCompatActivity {
     public void linkSignupClicked(View view) {
 
         startActivity(new Intent(SignInActivity.this, SignUpActivity.class));
-        finish();
     }
 
     public void sendPost(Request request) {
+
         signInService.signIn(request).enqueue(new Callback<Response>() {
 
             @Override
@@ -116,6 +122,7 @@ public final class SignInActivity extends AppCompatActivity {
 
                         finish();
                     } else {
+
                         Toast.makeText(SignInActivity.this,
                                 Objects.requireNonNull(response.body()).getMessage(),
                                 Toast.LENGTH_SHORT).show();
@@ -137,6 +144,7 @@ public final class SignInActivity extends AppCompatActivity {
     }
 
     private void saveLogin() {
+
         SharedPreferences.Editor editor = pref.edit();
         editor.putString("id", emailTv.getText().toString());
         editor.putString("pw", passwordTv.getText().toString());
@@ -146,7 +154,9 @@ public final class SignInActivity extends AppCompatActivity {
 
     @Override
     protected void onStop() {
+
         super.onStop();
+
         pref.edit().putBoolean("isReLogin", false).apply();
     }
 }

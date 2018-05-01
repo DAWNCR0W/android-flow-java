@@ -15,12 +15,15 @@ import java.util.List;
  */
 
 public final class GetMealInfo extends AsyncTask<Object, Void, List<SchoolMenu>> {
+
     private final School api = new School(School.Type.HIGH, School.Region.DAEGU, "D100000282");
+
     public MealDelegate mealDelegate = null;
     public OnParseMealProgress onParseMealProgress = null;
 
     @Override
     protected void onPreExecute() {
+
         super.onPreExecute();
         onParseMealProgress.onParseMeal();
     }
@@ -33,16 +36,21 @@ public final class GetMealInfo extends AsyncTask<Object, Void, List<SchoolMenu>>
 //        objects[2] = day
 //        objects[3] = true = return menus; false = return schedule
         List<SchoolMenu> menu = null;
+
         try {
+
             menu = api.getMonthlyMenu((int) objects[0], (int) objects[1]);
         } catch (SchoolException e) {
+
             e.printStackTrace();
         }
+
         return menu;
     }
 
     @Override
     protected void onPostExecute(List<SchoolMenu> o) {
+
         mealDelegate.processFinish(o);
     }
 }

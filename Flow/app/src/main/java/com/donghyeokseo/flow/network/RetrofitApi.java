@@ -1,8 +1,6 @@
 package com.donghyeokseo.flow.network;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import com.donghyeokseo.flow.Util;
 import com.donghyeokseo.flow.database.DatabaseHelper;
@@ -10,35 +8,38 @@ import com.donghyeokseo.flow.network.interfaces.OutService;
 import com.donghyeokseo.flow.network.interfaces.SignInService;
 import com.donghyeokseo.flow.network.interfaces.SignUpService;
 
-import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
-import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public final class RetrofitApi {
+
     private Retrofit retrofit = null;
     private String token;
 
     public RetrofitApi(Context context) {
+
         DatabaseHelper databaseHelper = new DatabaseHelper(context);
+
         token = databaseHelper.getToken();
     }
 
 
     private Retrofit getClient() {
+
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
 
         httpClient.addInterceptor(chain -> {
+
             Request request = chain
                     .request()
                     .newBuilder()
                     .addHeader("x-access-token", token)
                     .build();
+
             return chain.proceed(request);
         });
 
@@ -46,6 +47,7 @@ public final class RetrofitApi {
         httpClient.readTimeout(1000, TimeUnit.MILLISECONDS);
 
         if (retrofit == null) {
+
             retrofit = new Retrofit.Builder()
                     .baseUrl(Util.SERVER_HOST)
                     .addConverterFactory(GsonConverterFactory.create())
@@ -57,14 +59,17 @@ public final class RetrofitApi {
     }
 
     public SignInService getSignInService() {
+
         return getClient().create(SignInService.class);
     }
 
     public SignUpService getSignUpService() {
+
         return getClient().create(SignUpService.class);
     }
 
     public OutService getOutService() {
+
         return getClient().create(OutService.class);
     }
 }

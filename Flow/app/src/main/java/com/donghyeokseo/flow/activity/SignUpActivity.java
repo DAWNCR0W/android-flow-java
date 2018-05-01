@@ -34,6 +34,12 @@ import static com.donghyeokseo.flow.Util.isSchoolEmail;
 import static com.donghyeokseo.flow.Util.isValidPassword;
 
 public final class SignUpActivity extends AppCompatActivity {
+
+    private int classIdx = 0;
+    private int classNumber = 0;
+
+    SignUpService signUpService = new RetrofitApi(SignUpActivity.this).getSignUpService();
+
     @BindView(R.id.input_name)
     EditText inputName;
     @BindView(R.id.input_email)
@@ -51,22 +57,22 @@ public final class SignUpActivity extends AppCompatActivity {
     @BindView(R.id.input_radio_group)
     RadioGroup radioGroup;
 
-    private int classIdx = 0;
-    private int classNumber = 0;
-
-    SignUpService signUpService = new RetrofitApi(SignUpActivity.this).getSignUpService();
-
     @OnClick(R.id.link_login)
     public void loginLinkClicked() {
+
         startActivity(new Intent(SignUpActivity.this, SignInActivity.class));
         finish();
     }
 
     @OnClick(R.id.button_signup)
     public void btnSignupClicked(View view) {
+
         int radioBtnSelectedId = radioGroup.getCheckedRadioButtonId();
+
         String gender = ((RadioButton) findViewById(radioBtnSelectedId)).getText().toString();
+
         if (checkInputHasValue()) return;
+
         //이메일 정규식 검사
         if (isSchoolEmail(inputEmail.getText().toString().trim()))
             //비밀번호 정규식 검사
@@ -76,6 +82,7 @@ public final class SignUpActivity extends AppCompatActivity {
                     //비밀번호 재입력 검사
                     if (inputPassword.getText().toString().equals(
                             inputPasswordRepeat.getText().toString().trim())) {
+
                         //요청파라미터 객체 생성 및 초기화
                         Request request = new Request(
                                 inputEmail.getText().toString().trim(),
@@ -86,6 +93,7 @@ public final class SignUpActivity extends AppCompatActivity {
                                 classIdx,
                                 classNumber
                         );
+
                         sendPost(request);
                     } else
                         Toast.makeText(this,
@@ -101,6 +109,7 @@ public final class SignUpActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
         ButterKnife.bind(this);
@@ -108,12 +117,16 @@ public final class SignUpActivity extends AppCompatActivity {
         radioGroup.check(R.id.input_radio_button_male);
         ArrayAdapter<CharSequence> classIdx = ArrayAdapter.createFromResource(this,
                 R.array.class_idx, android.R.layout.simple_spinner_item);
+
         classIdx.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
         inputSpinnerClassIdx.setAdapter(classIdx);
 
         ArrayAdapter<CharSequence> classNumber = ArrayAdapter.createFromResource(this,
                 R.array.class_number, android.R.layout.simple_spinner_item);
+
         classNumber.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
         inputSpinnerClassNumber.setAdapter(classNumber);
 
         inputSpinnerClassIdx.setOnItemSelectedListener(new ClassIdxItemSelectListener());
@@ -127,19 +140,26 @@ public final class SignUpActivity extends AppCompatActivity {
                 inputEmail.getText().toString().trim().equals("") ||
                 inputPassword.getText().toString().trim().equals("") ||
                 inputPhone.getText().toString().trim().equals("")) {
+
             Toast.makeText(this, "빈 칸을 채워 주세요", Toast.LENGTH_SHORT).show();
+
             return true;
         }
         return false;
     }
 
     private void sendPost(Request request) {
+
         Log.e("signup", request.getPw());
+
         signUpService.signUp(request).enqueue(new Callback<Response>() {
+
             @Override
             public void onResponse(@NonNull Call<Response> call,
                                    @NonNull retrofit2.Response<Response> response) {
+
                 if (Objects.requireNonNull(response.body()).getStatus() == 200) {
+
                     Intent i = new Intent(SignUpActivity.this,
                             MainActivity.class);
 
@@ -151,6 +171,7 @@ public final class SignUpActivity extends AppCompatActivity {
 
                     finish();
                 } else {
+
                     Toast.makeText(SignUpActivity.this,
                             Objects.requireNonNull(response.body()).getMessage(),
                             Toast.LENGTH_SHORT).show();
@@ -160,6 +181,7 @@ public final class SignUpActivity extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Call<Response> call,
                                   @NonNull Throwable t) {
+
                 Toast.makeText(SignUpActivity.this,
                         "서버에서 응답을 받지 못했습니다",
                         Toast.LENGTH_SHORT).show();
@@ -171,6 +193,7 @@ public final class SignUpActivity extends AppCompatActivity {
 
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
             classIdx = Integer.parseInt(parent.getItemAtPosition(position).toString());
         }
 
@@ -184,6 +207,7 @@ public final class SignUpActivity extends AppCompatActivity {
 
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
             classNumber = Integer.parseInt(parent.getItemAtPosition(position).toString());
 
         }
