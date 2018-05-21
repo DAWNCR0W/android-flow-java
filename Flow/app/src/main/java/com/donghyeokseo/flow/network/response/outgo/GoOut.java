@@ -1,15 +1,21 @@
 package com.donghyeokseo.flow.network.response.outgo;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.sql.Timestamp;
 
 public final class GoOut {
     private Long accept;
     private Long idx;
-    private Timestamp start_time;
-    private Timestamp end_time;
+    @SerializedName("start_time")
+    private Timestamp startTime;
+    @SerializedName("end_time")
+    private Timestamp endTime;
     private String reason;
-    private Long class_idx;
-    private String student_email;
+    @SerializedName("class_idx")
+    private Long classIdx;
+    @SerializedName("student_email")
+    private String studentEmail;
 
     public Long getAccept() {
         return accept;
@@ -28,19 +34,19 @@ public final class GoOut {
     }
 
     public Timestamp getStartTime() {
-        return start_time;
+        return startTime;
     }
 
     public void setStartTime(Timestamp value) {
-        this.start_time = value;
+        this.startTime = value;
     }
 
     public Timestamp getEndTime() {
-        return end_time;
+        return endTime;
     }
 
     public void setEndTime(Timestamp value) {
-        this.end_time = value;
+        this.endTime = value;
     }
 
     public String getReason() {
@@ -52,18 +58,18 @@ public final class GoOut {
     }
 
     public Long getClassIdx() {
-        return class_idx;
+        return classIdx;
     }
 
     public void setClassIdx(Long value) {
-        this.class_idx = value;
+        this.classIdx = value;
     }
 
     public String getStudentEmail() {
-        return student_email;
+        return studentEmail;
     }
 
     public void setStudentEmail(String value) {
-        this.student_email = value;
+        this.studentEmail = value;
     }
 }

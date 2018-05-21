@@ -1,6 +1,6 @@
 package com.donghyeokseo.flow.network.interfaces;
 
-import com.donghyeokseo.flow.school.SchoolMenu;
+import com.donghyeokseo.flow.api.school.SchoolMenu;
 
 import java.util.List;
 

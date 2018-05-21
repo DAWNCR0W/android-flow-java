@@ -14,13 +14,12 @@ import android.widget.Toast;
 import com.donghyeokseo.flow.R;
 import com.donghyeokseo.flow.Util;
 import com.donghyeokseo.flow.delegate.OnParseMealProgress;
-import com.donghyeokseo.flow.school.SchoolMenu;
+import com.donghyeokseo.flow.api.school.SchoolMenu;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 
 import butterknife.BindAnim;
 import butterknife.BindColor;

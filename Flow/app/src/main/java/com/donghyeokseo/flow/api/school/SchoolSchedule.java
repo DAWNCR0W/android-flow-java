@@ -1,4 +1,4 @@
-package com.donghyeokseo.flow.school;
+package com.donghyeokseo.flow.api.school;
 
 /**
  * School API

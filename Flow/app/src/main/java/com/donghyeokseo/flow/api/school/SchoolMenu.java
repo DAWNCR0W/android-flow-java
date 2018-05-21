@@ -1,9 +1,7 @@
-package com.donghyeokseo.flow.school;
+package com.donghyeokseo.flow.api.school;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
-import java.util.Calendar;
 
 /**
  * School API

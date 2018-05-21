@@ -1,13 +1,17 @@
 package com.donghyeokseo.flow.network.response.outsleep;
 
+import com.google.gson.annotations.SerializedName;
+
 public final class Data {
-    private SleepOut sleep_out;
+
+    @SerializedName("sleep_out")
+    private SleepOut sleepOut;
 
     public SleepOut getSleepOut() {
-        return sleep_out;
+        return sleepOut;
     }
 
     public void setSleepOut(SleepOut value) {
-        this.sleep_out = value;
+        this.sleepOut = value;
     }
 }

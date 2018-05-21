@@ -16,7 +16,7 @@ import android.widget.Toast;
 
 import com.donghyeokseo.flow.R;
 import com.donghyeokseo.flow.network.RetrofitApi;
-import com.donghyeokseo.flow.network.interfaces.SignUpService;
+import com.donghyeokseo.flow.network.interfaces.SignService;
 import com.donghyeokseo.flow.network.request.signup.Request;
 import com.donghyeokseo.flow.network.response.signup.Response;
 
@@ -38,7 +38,7 @@ public final class SignUpActivity extends AppCompatActivity {
     private int classIdx = 0;
     private int classNumber = 0;
 
-    SignUpService signUpService = new RetrofitApi(SignUpActivity.this).getSignUpService();
+    SignService signService = new RetrofitApi(SignUpActivity.this).getSignService();
 
     @BindView(R.id.input_name)
     EditText inputName;
@@ -152,7 +152,7 @@ public final class SignUpActivity extends AppCompatActivity {
 
         Log.e("signup", request.getPw());
 
-        signUpService.signUp(request).enqueue(new Callback<Response>() {
+        signService.signUp(request).enqueue(new Callback<Response>() {
 
             @Override
             public void onResponse(@NonNull Call<Response> call,

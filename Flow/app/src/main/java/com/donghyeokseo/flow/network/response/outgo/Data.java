@@ -1,13 +1,17 @@
 package com.donghyeokseo.flow.network.response.outgo;
 
+import com.google.gson.annotations.SerializedName;
+
 public final class Data {
-    private GoOut go_out;
+
+    @SerializedName("go_out")
+    private GoOut goOut;
 
     public GoOut getGoOut() {
-        return go_out;
+        return goOut;
     }
 
     public void setGoOut(GoOut value) {
-        this.go_out = value;
+        this.goOut = value;
     }
 }

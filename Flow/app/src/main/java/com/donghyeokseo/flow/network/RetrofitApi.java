@@ -5,8 +5,7 @@ import android.content.Context;
 import com.donghyeokseo.flow.Util;
 import com.donghyeokseo.flow.database.DatabaseHelper;
 import com.donghyeokseo.flow.network.interfaces.OutService;
-import com.donghyeokseo.flow.network.interfaces.SignInService;
-import com.donghyeokseo.flow.network.interfaces.SignUpService;
+import com.donghyeokseo.flow.network.interfaces.SignService;
 
 import java.util.concurrent.TimeUnit;
 
@@ -58,14 +57,9 @@ public final class RetrofitApi {
         return retrofit;
     }
 
-    public SignInService getSignInService() {
+    public SignService getSignService() {
 
-        return getClient().create(SignInService.class);
-    }
-
-    public SignUpService getSignUpService() {
-
-        return getClient().create(SignUpService.class);
+        return getClient().create(SignService.class);
     }
 
     public OutService getOutService() {

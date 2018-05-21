@@ -1,11 +1,14 @@
 package com.donghyeokseo.flow.network.response.signin;
 
+import com.google.gson.annotations.SerializedName;
+
 public final class User {
     private String email;
     private String name;
     private String gender;
     private String mobile;
-    private MyClass my_class;
+    @SerializedName("my_class")
+    private MyClass myClass;
 
     public String getEmail() {
         return email;
@@ -40,10 +43,10 @@ public final class User {
     }
 
     public MyClass getMyClass() {
-        return my_class;
+        return myClass;
     }
 
     public void setMyClass(MyClass value) {
-        this.my_class = value;
+        this.myClass = value;
     }
 }

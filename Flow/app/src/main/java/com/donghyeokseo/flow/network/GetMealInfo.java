@@ -4,9 +4,9 @@ import android.os.AsyncTask;
 
 import com.donghyeokseo.flow.delegate.OnParseMealProgress;
 import com.donghyeokseo.flow.network.interfaces.MealDelegate;
-import com.donghyeokseo.flow.school.School;
-import com.donghyeokseo.flow.school.SchoolException;
-import com.donghyeokseo.flow.school.SchoolMenu;
+import com.donghyeokseo.flow.api.school.School;
+import com.donghyeokseo.flow.api.school.SchoolException;
+import com.donghyeokseo.flow.api.school.SchoolMenu;
 
 import java.util.List;
 

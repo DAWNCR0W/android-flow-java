@@ -18,7 +18,7 @@ import com.donghyeokseo.flow.delegate.OnParseMealProgress;
 import com.donghyeokseo.flow.fragment.PlaceholderFragment;
 import com.donghyeokseo.flow.network.GetMealInfo;
 import com.donghyeokseo.flow.network.interfaces.MealDelegate;
-import com.donghyeokseo.flow.school.SchoolMenu;
+import com.donghyeokseo.flow.api.school.SchoolMenu;
 
 import java.util.ArrayList;
 import java.util.Calendar;

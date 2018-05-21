@@ -5,7 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.donghyeokseo.flow.fragment.PlaceholderFragment;
-import com.donghyeokseo.flow.school.SchoolMenu;
+import com.donghyeokseo.flow.api.school.SchoolMenu;
 
 import java.util.Calendar;
 import java.util.List;

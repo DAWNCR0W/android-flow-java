@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -16,7 +15,7 @@ import android.widget.Toast;
 import com.donghyeokseo.flow.R;
 import com.donghyeokseo.flow.database.DatabaseHelper;
 import com.donghyeokseo.flow.network.RetrofitApi;
-import com.donghyeokseo.flow.network.interfaces.SignInService;
+import com.donghyeokseo.flow.network.interfaces.SignService;
 import com.donghyeokseo.flow.network.request.signin.Request;
 import com.donghyeokseo.flow.network.response.signin.Response;
 
@@ -33,7 +32,9 @@ import static com.donghyeokseo.flow.Util.isSchoolEmail;
 
 public final class SignInActivity extends AppCompatActivity {
 
-    SignInService signInService;
+    SignService signService;
+
+    DatabaseHelper databaseHelper;
 
     @BindView(R.id.login_email_editText)
     EditText emailTv;
@@ -51,8 +52,6 @@ public final class SignInActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
 
-        Log.e("서동혁", "Main : OnStop()");
-
         super.onStop();
 
         pref.edit().putBoolean("isReLogin", false).apply();
@@ -61,9 +60,9 @@ public final class SignInActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        Log.e("서동혁", "Main : OnCreate()");
+        signService = new RetrofitApi(SignInActivity.this).getSignService();
 
-        signInService = new RetrofitApi(SignInActivity.this).getSignInService();
+        databaseHelper = new DatabaseHelper(SignInActivity.this);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
@@ -97,7 +96,7 @@ public final class SignInActivity extends AppCompatActivity {
         if (!isSchoolEmail(email))
             Toast.makeText(this, "올바른 이메일 형식이 아닙니다!", Toast.LENGTH_SHORT).show();
 
-        Request request = new Request(email, encryption(password));
+        Request request = new Request(email, encryption(password), databaseHelper.getToken());
 
         sendPost(request);
     }
@@ -110,7 +109,7 @@ public final class SignInActivity extends AppCompatActivity {
 
     public void sendPost(Request request) {
 
-        signInService.signIn(request).enqueue(new Callback<Response>() {
+        signService.signIn(request).enqueue(new Callback<Response>() {
 
             @Override
             public void onResponse(@NonNull Call<Response> call,

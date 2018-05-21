@@ -1,11 +1,10 @@
-package com.donghyeokseo.flow.school;
+package com.donghyeokseo.flow.api.school;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Calendar;
 import java.util.List;
 
 /**
