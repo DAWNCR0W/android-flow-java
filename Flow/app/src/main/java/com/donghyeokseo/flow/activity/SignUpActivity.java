@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -37,6 +36,8 @@ public final class SignUpActivity extends AppCompatActivity {
 
     private int classIdx = 0;
     private int classNumber = 0;
+
+    private boolean backButtonDestroy = true;
 
     SignService signService = new RetrofitApi(SignUpActivity.this).getSignService();
 
@@ -150,8 +151,6 @@ public final class SignUpActivity extends AppCompatActivity {
 
     private void sendPost(Request request) {
 
-        Log.e("signup", request.getPw());
-
         signService.signUp(request).enqueue(new Callback<Response>() {
 
             @Override
@@ -166,6 +165,8 @@ public final class SignUpActivity extends AppCompatActivity {
                     Toast.makeText(SignUpActivity.this,
                             Objects.requireNonNull(response.body()).getMessage(),
                             Toast.LENGTH_SHORT).show();
+
+                    backButtonDestroy = false;
 
                     startActivity(i);
 
@@ -199,7 +200,6 @@ public final class SignUpActivity extends AppCompatActivity {
 
         @Override
         public void onNothingSelected(AdapterView<?> parent) {
-
         }
     }
 
@@ -209,12 +209,22 @@ public final class SignUpActivity extends AppCompatActivity {
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
             classNumber = Integer.parseInt(parent.getItemAtPosition(position).toString());
-
         }
 
         @Override
         public void onNothingSelected(AdapterView<?> parent) {
+        }
+    }
 
+    @Override
+    protected void onDestroy() {
+
+        super.onDestroy();
+
+        if (backButtonDestroy == true) {
+
+            startActivity(new Intent(SignUpActivity.this, SignInActivity.class));
+            finish();
         }
     }
 }

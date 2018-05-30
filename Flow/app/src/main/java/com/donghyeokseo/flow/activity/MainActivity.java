@@ -10,6 +10,7 @@ import android.widget.Button;
 
 import com.donghyeokseo.flow.R;
 import com.donghyeokseo.flow.Util;
+import com.donghyeokseo.flow.service.NotificationService;
 
 import butterknife.BindAnim;
 import butterknife.BindView;

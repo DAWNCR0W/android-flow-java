@@ -96,7 +96,7 @@ public final class SignInActivity extends AppCompatActivity {
         if (!isSchoolEmail(email))
             Toast.makeText(this, "올바른 이메일 형식이 아닙니다!", Toast.LENGTH_SHORT).show();
 
-        Request request = new Request(email, encryption(password), databaseHelper.getToken());
+        Request request = new Request(email, encryption(password));
 
         sendPost(request);
     }
@@ -105,6 +105,7 @@ public final class SignInActivity extends AppCompatActivity {
     public void linkSignupClicked(View view) {
 
         startActivity(new Intent(SignInActivity.this, SignUpActivity.class));
+        finish();
     }
 
     public void sendPost(Request request) {

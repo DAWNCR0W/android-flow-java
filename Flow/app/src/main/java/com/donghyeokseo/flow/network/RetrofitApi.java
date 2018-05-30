@@ -30,14 +30,21 @@ public final class RetrofitApi {
     private Retrofit getClient() {
 
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
-
         httpClient.addInterceptor(chain -> {
 
-            Request request = chain
-                    .request()
-                    .newBuilder()
-                    .addHeader("x-access-token", token)
-                    .build();
+            Request request;
+            if (token == null) {
+                request = chain
+                        .request()
+                        .newBuilder()
+                        .build();
+            } else {
+                request = chain
+                        .request()
+                        .newBuilder()
+                        .addHeader("x-access-token", token)
+                        .build();
+            }
 
             return chain.proceed(request);
         });
