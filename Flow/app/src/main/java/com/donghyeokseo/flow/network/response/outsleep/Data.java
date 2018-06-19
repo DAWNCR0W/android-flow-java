@@ -2,6 +2,9 @@ package com.donghyeokseo.flow.network.response.outsleep;
 
 import com.google.gson.annotations.SerializedName;
 
+/**
+ * @author dawncrow
+ */
 public final class Data {
 
     @SerializedName("sleep_out")

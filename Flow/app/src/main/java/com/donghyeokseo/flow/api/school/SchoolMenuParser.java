@@ -94,6 +94,8 @@ public class SchoolMenuParser {
                                 } else {
                                     menu.dinner = menu.dinner + mealText;
                                 }
+                            default:
+                                break;
                         }
                         break;
                 }

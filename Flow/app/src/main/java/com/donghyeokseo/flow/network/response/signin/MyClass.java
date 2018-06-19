@@ -2,9 +2,13 @@ package com.donghyeokseo.flow.network.response.signin;
 
 import com.google.gson.annotations.SerializedName;
 
+/**
+ * @author dawncrow
+ */
 public final class MyClass {
     private long grade;
-    private long myClassClass;
+    @SerializedName("class_room")
+    private long classRoom;
     @SerializedName("class_number")
     private long classNumber;
 
@@ -16,12 +20,12 @@ public final class MyClass {
         this.grade = value;
     }
 
-    public long getMyClassClass() {
-        return myClassClass;
+    public long getClassRoom() {
+        return classRoom;
     }
 
-    public void setMyClassClass(long value) {
-        this.myClassClass = value;
+    public void setClassRoom(long value) {
+        this.classRoom = value;
     }
 
     public long getClassNumber() {

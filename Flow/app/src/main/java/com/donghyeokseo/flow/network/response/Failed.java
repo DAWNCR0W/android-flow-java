@@ -1,5 +1,8 @@
 package com.donghyeokseo.flow.network.response;
 
+/**
+ * @author dawncrow
+ */
 public final class Failed {
     private Long status;
     private String message;

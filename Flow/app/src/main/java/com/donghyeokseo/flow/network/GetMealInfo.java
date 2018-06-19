@@ -2,30 +2,30 @@ package com.donghyeokseo.flow.network;
 
 import android.os.AsyncTask;
 
-import com.donghyeokseo.flow.delegate.OnParseMealProgress;
-import com.donghyeokseo.flow.network.interfaces.MealDelegate;
 import com.donghyeokseo.flow.api.school.School;
 import com.donghyeokseo.flow.api.school.SchoolException;
 import com.donghyeokseo.flow.api.school.SchoolMenu;
+import com.donghyeokseo.flow.delegate.OnParseMeal;
+import com.donghyeokseo.flow.delegate.ShowMeal;
 
 import java.util.List;
 
 /**
- * Created by dawncrow on 2018. 3. 13..
+ * @author dawncrow
+ * @date 2018. 3. 13.
  */
 
 public final class GetMealInfo extends AsyncTask<Object, Void, List<SchoolMenu>> {
 
     private final School api = new School(School.Type.HIGH, School.Region.DAEGU, "D100000282");
 
-    public MealDelegate mealDelegate = null;
-    public OnParseMealProgress onParseMealProgress = null;
+    public ShowMeal showMeal = null;
+    public OnParseMeal onParseMeal = null;
 
     @Override
     protected void onPreExecute() {
-
         super.onPreExecute();
-        onParseMealProgress.onParseMeal();
+        onParseMeal.onParseMeal();
     }
 
     @Override
@@ -51,6 +51,6 @@ public final class GetMealInfo extends AsyncTask<Object, Void, List<SchoolMenu>>
     @Override
     protected void onPostExecute(List<SchoolMenu> o) {
 
-        mealDelegate.processFinish(o);
+        showMeal.processFinish(o);
     }
 }

@@ -34,7 +34,11 @@ import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.Callback;
 
-public final class OutActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
+/**
+ * @author dawncrow
+ */
+public final class OutActivity extends AppCompatActivity
+        implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
     private boolean isStart;
     private boolean isSleep = false;
@@ -67,10 +71,11 @@ public final class OutActivity extends AppCompatActivity implements DatePickerDi
 
         isSleep = getIntent().getBooleanExtra("IsSleep", false);
 
-        if (isSleep)
+        if (isSleep) {
             setOutSleep();
-        else
+        } else {
             setOutGo();
+        }
 
         outService = new RetrofitApi(OutActivity.this).getOutService();
     }
@@ -91,10 +96,11 @@ public final class OutActivity extends AppCompatActivity implements DatePickerDi
 
     private void showDatePicker() {
 
-        if (isStart)
+        if (isStart) {
             startOutTimeEt.setText("");
-        else
+        } else {
             endOutTimeEt.setText("");
+        }
 
         final Calendar c = Calendar.getInstance();
 
@@ -137,7 +143,9 @@ public final class OutActivity extends AppCompatActivity implements DatePickerDi
             return;
         }
 
-        if (checkError(reason, startTime, endTime)) return;
+        if (checkError(reason, startTime, endTime)) {
+            return;
+        }
 
         if (isSleep) {
 
@@ -313,20 +321,21 @@ public final class OutActivity extends AppCompatActivity implements DatePickerDi
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
 
-        if (isStart)
+        if (isStart) {
             startOutTimeEt.setText(
                     year
                             + "-"
                             + String.format(Locale.KOREA, "%02d", (month + 1))
                             + "-"
                             + String.format(Locale.KOREA, "%02d", dayOfMonth));
-        else
+        } else {
             endOutTimeEt.setText(
                     year
                             + "-"
                             + String.format(Locale.KOREA, "%02d", (month + 1))
                             + "-"
                             + String.format(Locale.KOREA, "%02d", dayOfMonth));
+        }
 
         Calendar mCurrentTime = Calendar.getInstance();
 
@@ -344,7 +353,7 @@ public final class OutActivity extends AppCompatActivity implements DatePickerDi
     @SuppressLint("SetTextI18n")
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-        if (isStart)
+        if (isStart) {
             startOutTimeEt.setText(
                     startOutTimeEt.getText().toString()
                             + " "
@@ -352,7 +361,7 @@ public final class OutActivity extends AppCompatActivity implements DatePickerDi
                             + ":"
                             + String.format(Locale.KOREA, "%02d", minute)
                             + ":00");
-        else
+        } else {
             endOutTimeEt.setText(
                     endOutTimeEt.getText().toString()
                             + " "
@@ -360,5 +369,6 @@ public final class OutActivity extends AppCompatActivity implements DatePickerDi
                             + ":"
                             + String.format(Locale.KOREA, "%02d", minute)
                             + ":00");
+        }
     }
 }

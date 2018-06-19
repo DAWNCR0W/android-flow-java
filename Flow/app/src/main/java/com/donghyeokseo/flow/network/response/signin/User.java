@@ -2,6 +2,9 @@ package com.donghyeokseo.flow.network.response.signin;
 
 import com.google.gson.annotations.SerializedName;
 
+/**
+ * @author dawncrow
+ */
 public final class User {
     private String email;
     private String name;

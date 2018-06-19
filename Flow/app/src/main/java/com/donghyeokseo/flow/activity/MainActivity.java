@@ -10,13 +10,15 @@ import android.widget.Button;
 
 import com.donghyeokseo.flow.R;
 import com.donghyeokseo.flow.Util;
-import com.donghyeokseo.flow.service.NotificationService;
 
 import butterknife.BindAnim;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+/**
+ * @author dawncrow
+ */
 public final class MainActivity extends AppCompatActivity {
 
     @BindAnim(R.anim.fade_in1)
@@ -38,22 +40,19 @@ public final class MainActivity extends AppCompatActivity {
     Button viewApplyOutSleepBtn;
     @BindView(R.id.out_check_button)
     Button viewOutCheckBtn;
-    @BindView(R.id.relogin_button)
+    @BindView(R.id.logout_button)
     Button reLoginBtn;
 
-
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_main);
         ButterKnife.bind(MainActivity.this);
-
         Util.getDeviceNavigationBarHeigh(MainActivity.this);
     }
 
     @Override
     protected void onResume() {
-
         super.onResume();
 
         viewMealBtn.startAnimation(fadeIn1);
@@ -65,14 +64,14 @@ public final class MainActivity extends AppCompatActivity {
 
     //버튼 이벤트
     @OnClick(R.id.view_meal_button)
-    public void OnViewMealBtnClicked(View view) {
+    public void onViewMealBtnClicked(View view) {
 
         Intent mealIntent = new Intent(MainActivity.this, MealActivity.class);
         startActivity(mealIntent);
     }
 
     @OnClick(R.id.apply_out_go_button)
-    public void OnApplyOutGoBtnClicked(View view) {
+    public void onApplyOutGoBtnClicked(View view) {
 
         Intent i = new Intent(MainActivity.this, OutActivity.class);
         i.putExtra("IsSleep", false);
@@ -80,7 +79,7 @@ public final class MainActivity extends AppCompatActivity {
     }
 
     @OnClick(R.id.apply_out_sleep_button)
-    public void OnApplyOutSleepButtonClicked(View view) {
+    public void onApplyOutSleepBtnClicked(View view) {
 
         Intent i = new Intent(MainActivity.this, OutActivity.class);
         i.putExtra("IsSleep", true);
@@ -88,14 +87,14 @@ public final class MainActivity extends AppCompatActivity {
     }
 
     @OnClick(R.id.out_check_button)
-    public void OnOutCheckButtonClicked(View view) {
+    public void onOutCheckBtnClicked(View view) {
 
         Intent i = new Intent(MainActivity.this, OutCheckActivity.class);
         startActivity(i);
     }
 
-    @OnClick(R.id.relogin_button)
-    public void OnReLoginButtonClicked(View view) {
+    @OnClick(R.id.logout_button)
+    public void onReLoginBtnClicked(View view) {
 
         Intent i = new Intent(MainActivity.this, SignInActivity.class);
         startActivity(i);
@@ -108,5 +107,10 @@ public final class MainActivity extends AppCompatActivity {
         finish();
     }
 
+    @OnClick(R.id.view_notice_button)
+    public void ondetailNoticeBtnClicked(View view) {
+        Intent i = new Intent(MainActivity.this, NoticeActivity.class);
+        startActivity(i);
+    }
 
 }

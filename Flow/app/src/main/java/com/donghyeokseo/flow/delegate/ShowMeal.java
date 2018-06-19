@@ -1,13 +1,14 @@
-package com.donghyeokseo.flow.network.interfaces;
+package com.donghyeokseo.flow.delegate;
 
 import com.donghyeokseo.flow.api.school.SchoolMenu;
 
 import java.util.List;
 
 /**
- * Created by dawncrow on 2018. 3. 26..
+ * @author dawncrow
+ * @date 2018. 3. 26.
  */
 
-public interface MealDelegate {
+public interface ShowMeal {
     void processFinish(List<SchoolMenu> objects);
 }

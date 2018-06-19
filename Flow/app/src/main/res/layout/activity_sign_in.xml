@@ -141,7 +141,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:background="@drawable/rounded"
-            android:backgroundTint="#FFB900"
+            android:backgroundTint="@color/third_pink"
             android:text="확인"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"

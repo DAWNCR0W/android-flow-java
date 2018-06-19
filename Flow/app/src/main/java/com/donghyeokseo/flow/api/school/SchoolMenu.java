@@ -11,7 +11,7 @@ import android.os.Parcelable;
  * @version 3.0
  */
 public class SchoolMenu implements Parcelable {
-    protected SchoolMenu(Parcel in) {
+    private SchoolMenu(Parcel in) {
         breakfast = in.readString();
         lunch = in.readString();
         dinner = in.readString();

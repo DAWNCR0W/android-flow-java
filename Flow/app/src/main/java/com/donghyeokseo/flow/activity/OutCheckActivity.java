@@ -16,6 +16,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+/**
+ * @author dawncrow
+ */
 public final class OutCheckActivity extends Activity {
 
     private List<Out> outList;

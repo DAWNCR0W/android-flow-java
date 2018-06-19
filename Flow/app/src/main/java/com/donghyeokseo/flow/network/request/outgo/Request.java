@@ -1,24 +1,31 @@
 package com.donghyeokseo.flow.network.request.outgo;
 
+import com.google.gson.annotations.SerializedName;
+
+/**
+ * @author dawncrow
+ */
 public final class Request {
-    private String start_time;
-    private String end_time;
+    @SerializedName("start_time")
+    private String startTime;
+    @SerializedName("end_time")
+    private String endTime;
     private String reason;
 
     public String getStartTime() {
-        return start_time;
+        return startTime;
     }
 
     public void setStartTime(String value) {
-        this.start_time = value;
+        this.startTime = value;
     }
 
     public String getEndTime() {
-        return end_time;
+        return endTime;
     }
 
     public void setEndTime(String value) {
-        this.end_time = value;
+        this.endTime = value;
     }
 
     public String getReason() {

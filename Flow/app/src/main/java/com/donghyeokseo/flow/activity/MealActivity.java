@@ -11,23 +11,27 @@ import android.view.ContextThemeWrapper;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.DatePicker;
+import android.widget.Toast;
 
 import com.donghyeokseo.flow.R;
-import com.donghyeokseo.flow.adapter.SectionsPagerAdapter;
-import com.donghyeokseo.flow.delegate.OnParseMealProgress;
+import com.donghyeokseo.flow.adapter.MealSectionsPagerAdapter;
+import com.donghyeokseo.flow.api.school.SchoolMenu;
+import com.donghyeokseo.flow.delegate.OnParseMeal;
+import com.donghyeokseo.flow.delegate.ShowMeal;
 import com.donghyeokseo.flow.fragment.PlaceholderFragment;
 import com.donghyeokseo.flow.network.GetMealInfo;
-import com.donghyeokseo.flow.network.interfaces.MealDelegate;
-import com.donghyeokseo.flow.api.school.SchoolMenu;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public final class MealActivity extends AppCompatActivity implements MealDelegate,
-        DatePickerDialog.OnDateSetListener, OnParseMealProgress {
+/**
+ * @author dawncrow
+ */
+public final class MealActivity extends AppCompatActivity
+        implements ShowMeal, DatePickerDialog.OnDateSetListener, OnParseMeal {
 
-    private SectionsPagerAdapter mSectionsPagerAdapter;
+    private MealSectionsPagerAdapter mMealSectionsPagerAdapter;
     private List<SchoolMenu> mealInfo = new ArrayList<>();
     private DatePickerDialog.OnDateSetListener dateSetListener = this;
     private ViewPager mViewPager;
@@ -35,61 +39,6 @@ public final class MealActivity extends AppCompatActivity implements MealDelegat
     private int year;
     private int month;
     private int day;
-
-    private void setDateToToday() {
-
-        //오늘 날짜로 설정
-        PlaceholderFragment.anotherMonth = false;
-
-        year = Calendar.getInstance().get(Calendar.YEAR);
-        month = Calendar.getInstance().get(Calendar.MONTH) + 1;
-        day = Calendar.getInstance().get(Calendar.DATE);
-    }
-
-    private void showDatePicker() {
-
-        //날짜 선택창 띄우기
-        Context context = new ContextThemeWrapper(this,
-                android.R.style.Theme_Holo_Light_Dialog);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-            // API 24 이상일 경우 시스템 기본 테마 사용
-            context = this;
-
-        DatePickerDialog datePickerDialog =
-                new DatePickerDialog(context, dateSetListener, year, month, day);
-
-        datePickerDialog.show();
-    }
-
-    private void setMealInfo() {
-
-        //급식 정보 파싱 받아오기
-        int nowMonth = 0;
-
-        Object[] asyncParameters = new Object[]{
-                year,
-                month + nowMonth,
-                day
-        };
-
-        GetMealInfo getMealInfo = new GetMealInfo();
-        getMealInfo.mealDelegate = this;
-        getMealInfo.onParseMealProgress = this;
-        getMealInfo.execute(asyncParameters);
-    }
-
-    private void setFragment() {
-
-        //프래그먼트 설정하기
-        mSectionsPagerAdapter =
-                new SectionsPagerAdapter(getSupportFragmentManager(), year, month, day, mealInfo);
-
-        // Set up the ViewPager with the sections adapter.
-        mViewPager = findViewById(R.id.container);
-        mViewPager.setAdapter(mSectionsPagerAdapter);
-        mViewPager.setCurrentItem(day - 1);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -160,12 +109,13 @@ public final class MealActivity extends AppCompatActivity implements MealDelegat
 
             ArrayList<SchoolMenu> schoolMenus = new ArrayList<>();
 
-            for (int i = 0; i < 31; i++)
+            for (int i = 0; i < 31; i++) {
                 schoolMenus.add(schoolMenu);
+            }
 
             mealInfo = schoolMenus;
-            mSectionsPagerAdapter.mealInfo = mealInfo;
-            mSectionsPagerAdapter.notifyDataSetChanged();
+            mMealSectionsPagerAdapter.mealInfo = mealInfo;
+            mMealSectionsPagerAdapter.notifyDataSetChanged();
         }
     }
 
@@ -173,8 +123,8 @@ public final class MealActivity extends AppCompatActivity implements MealDelegat
     public void processFinish(List<SchoolMenu> mealInfo) {
 
         this.mealInfo = mealInfo;
-        mSectionsPagerAdapter.mealInfo = mealInfo;
-        mSectionsPagerAdapter.notifyDataSetChanged();
+        mMealSectionsPagerAdapter.mealInfo = mealInfo;
+        mMealSectionsPagerAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -182,9 +132,9 @@ public final class MealActivity extends AppCompatActivity implements MealDelegat
 
         if (year == Calendar.getInstance().get(Calendar.YEAR) &&
                 monthOfYear == Calendar.getInstance().get(Calendar.MONTH) &&
-                dayOfMonth == Calendar.getInstance().get(Calendar.DAY_OF_MONTH))
+                dayOfMonth == Calendar.getInstance().get(Calendar.DAY_OF_MONTH)) {
             setDateToToday();
-        else {
+        } else {
 
             PlaceholderFragment.anotherMonth = true;
 
@@ -196,5 +146,61 @@ public final class MealActivity extends AppCompatActivity implements MealDelegat
         setMealInfo();
 
         setFragment();
+    }
+
+    private void setDateToToday() {
+
+        //오늘 날짜로 설정
+        PlaceholderFragment.anotherMonth = false;
+
+        year = Calendar.getInstance().get(Calendar.YEAR);
+        month = Calendar.getInstance().get(Calendar.MONTH) + 1;
+        day = Calendar.getInstance().get(Calendar.DATE);
+    }
+
+    private void showDatePicker() {
+
+        //날짜 선택창 띄우기
+        Context context = new ContextThemeWrapper(this,
+                android.R.style.Theme_Holo_Light_Dialog);
+
+        // API 24 이상일 경우 시스템 기본 테마 사용
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            context = this;
+        }
+
+        DatePickerDialog datePickerDialog =
+                new DatePickerDialog(context, dateSetListener, year, month, day);
+
+        datePickerDialog.show();
+    }
+
+    private void setMealInfo() {
+
+        //급식 정보 파싱 받아오기
+        int nowMonth = 0;
+
+        Object[] asyncParameters = new Object[]{
+                year,
+                month + nowMonth,
+                day
+        };
+
+        GetMealInfo getMealInfo = new GetMealInfo();
+        getMealInfo.showMeal = this;
+        getMealInfo.onParseMeal = this;
+        getMealInfo.execute(asyncParameters);
+    }
+
+    private void setFragment() {
+
+        //프래그먼트 설정하기
+        mMealSectionsPagerAdapter =
+                new MealSectionsPagerAdapter(getSupportFragmentManager(), year, month, day, mealInfo);
+
+        // Set up the ViewPager with the sections adapter.
+        mViewPager = findViewById(R.id.container);
+        mViewPager.setAdapter(mMealSectionsPagerAdapter);
+        mViewPager.setCurrentItem(day - 1);
     }
 }

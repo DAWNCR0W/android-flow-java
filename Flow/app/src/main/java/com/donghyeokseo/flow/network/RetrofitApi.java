@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.donghyeokseo.flow.Util;
 import com.donghyeokseo.flow.database.DatabaseHelper;
+import com.donghyeokseo.flow.network.interfaces.NoticeService;
 import com.donghyeokseo.flow.network.interfaces.OutService;
 import com.donghyeokseo.flow.network.interfaces.SignService;
 
@@ -14,6 +15,9 @@ import okhttp3.Request;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+/**
+ * @author dawncrow
+ */
 public final class RetrofitApi {
 
     private Retrofit retrofit = null;
@@ -65,12 +69,14 @@ public final class RetrofitApi {
     }
 
     public SignService getSignService() {
-
         return getClient().create(SignService.class);
     }
 
     public OutService getOutService() {
-
         return getClient().create(OutService.class);
+    }
+
+    public NoticeService getNoticeService() {
+        return getClient().create(NoticeService.class);
     }
 }

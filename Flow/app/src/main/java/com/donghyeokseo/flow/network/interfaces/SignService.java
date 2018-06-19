@@ -4,6 +4,9 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.POST;
 
+/**
+ * @author dawncrow
+ */
 public interface SignService {
 
     @POST("/auth/signin")

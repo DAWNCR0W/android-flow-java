@@ -4,32 +4,33 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.donghyeokseo.flow.fragment.PlaceholderFragment;
 import com.donghyeokseo.flow.api.school.SchoolMenu;
+import com.donghyeokseo.flow.fragment.PlaceholderFragment;
 
 import java.util.Calendar;
 import java.util.List;
 
-public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
+/**
+ * @author dawncrow
+ */
+public final class MealSectionsPagerAdapter extends FragmentStatePagerAdapter {
 
     private int year;
     private int month;
     private int day;
     public List<SchoolMenu> mealInfo;
 
-    public SectionsPagerAdapter(FragmentManager fm, int year, int month, int day, List<SchoolMenu> mealInfo) {
-
+    public MealSectionsPagerAdapter(FragmentManager fm, int year, int month, int day, List<SchoolMenu> mealInfo) {
         super(fm);
 
         this.year = year;
         this.month = month;
-        this.day  = day;
+        this.day = day;
         this.mealInfo = mealInfo;
     }
 
     @Override
     public Fragment getItem(int position) {
-
         return PlaceholderFragment.newInstance(position + 1, year, month, day, mealInfo);
     }
 
@@ -44,7 +45,6 @@ public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public int getItemPosition(Object object) {
-
         return POSITION_NONE;
     }
 }

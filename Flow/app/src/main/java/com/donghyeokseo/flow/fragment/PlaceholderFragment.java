@@ -13,22 +13,25 @@ import android.widget.Toast;
 
 import com.donghyeokseo.flow.R;
 import com.donghyeokseo.flow.Util;
-import com.donghyeokseo.flow.delegate.OnParseMealProgress;
 import com.donghyeokseo.flow.api.school.SchoolMenu;
+import com.donghyeokseo.flow.delegate.OnParseMeal;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindAnim;
-import butterknife.BindColor;
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public final class PlaceholderFragment extends Fragment implements OnParseMealProgress {
+/**
+ * @author dawncrow
+ */
+public final class PlaceholderFragment extends Fragment implements OnParseMeal {
 
     public static boolean anotherMonth;
 
@@ -45,12 +48,6 @@ public final class PlaceholderFragment extends Fragment implements OnParseMealPr
     Button lunchBtn;
     @BindView(R.id.dinner_button)
     Button dinnerBtn;
-
-    //버튼 색상
-    @BindColor(R.color.buttonAfterClick)
-    int afterClick;
-    @BindColor(R.color.buttonBeforeClick)
-    int beforeClick;
 
     @BindAnim(R.anim.fade_in3)
     Animation fadeIn;
@@ -87,7 +84,7 @@ public final class PlaceholderFragment extends Fragment implements OnParseMealPr
     @BindView(R.id.dinner_title_textView)
     TextView dinnerTitleTv;
 
-    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH");
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH", Locale.KOREA);
 
     Date date = new Date();
 
@@ -135,6 +132,8 @@ public final class PlaceholderFragment extends Fragment implements OnParseMealPr
                 stopAnimation();
                 dinnerContentTv.startAnimation(fadeIn);
                 dinnerTitleTv.startAnimation(fadeIn);
+                break;
+            default:
                 break;
         }
     }
@@ -214,6 +213,7 @@ public final class PlaceholderFragment extends Fragment implements OnParseMealPr
         return rootView;
     }
 
+    @Override
     public void onParseMeal() {
 
         breakfastContentTv.setText("급식정보 받아오는중");
@@ -236,11 +236,6 @@ public final class PlaceholderFragment extends Fragment implements OnParseMealPr
 
         stopAnimation();
 
-        view.setBackgroundColor(afterClick);
-
-        lunchBtn.setBackgroundColor(beforeClick);
-        dinnerBtn.setBackgroundColor(beforeClick);
-
         btnStatus = 0;
 
         breakfastContentTv.setVisibility(View.VISIBLE);
@@ -259,11 +254,6 @@ public final class PlaceholderFragment extends Fragment implements OnParseMealPr
 
         stopAnimation();
 
-        view.setBackgroundColor(afterClick);
-
-        breakfastBtn.setBackgroundColor(beforeClick);
-        dinnerBtn.setBackgroundColor(beforeClick);
-
         btnStatus = 1;
 
         breakfastContentTv.setVisibility(View.GONE);
@@ -281,11 +271,6 @@ public final class PlaceholderFragment extends Fragment implements OnParseMealPr
     public void setDinnerBtnClicked(View view) {
 
         stopAnimation();
-
-        view.setBackgroundColor(afterClick);
-
-        breakfastBtn.setBackgroundColor(beforeClick);
-        lunchBtn.setBackgroundColor(beforeClick);
 
         btnStatus = 2;
 

@@ -17,9 +17,9 @@ import java.util.List;
 public class School {
     private static final String MONTHLY_MENU_URL = "sts_sci_md00_001.do";
     private static final String SCHEDULE_URL = "sts_sci_sf01_001.do";
-    public School.Type schoolType;
-    public School.Region schoolRegion;
-    public String schoolCode;
+    private School.Type schoolType;
+    private School.Region schoolRegion;
+    private String schoolCode;
 
     public School(School.Type schoolType, School.Region schoolRegion, String schoolCode) {
         this.schoolType = schoolType;

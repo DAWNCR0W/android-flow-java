@@ -81,7 +81,7 @@
         android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/rounded"
-        android:backgroundTint="#FFB900"
+        android:backgroundTint="@color/third_pink"
         android:text="제출"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

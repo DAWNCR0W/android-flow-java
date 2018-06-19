@@ -1,13 +1,20 @@
 package com.donghyeokseo.flow.network.request.signup;
 
+import com.google.gson.annotations.SerializedName;
+
+/**
+ * @author dawncrow
+ */
 public final class Request {
     private String email;
     private String pw;
     private String name;
     private String gender;
     private String mobile;
-    private int class_idx;
-    private int class_number;
+    @SerializedName("class_idx")
+    private int classIdx;
+    @SerializedName("class_number")
+    private int classNumber;
 
     public Request(String email, String pw, String name, String gender, String mobile, int classIdx, int classNumber) {
         this.email = email;
@@ -15,8 +22,8 @@ public final class Request {
         this.name = name;
         this.gender = gender;
         this.mobile = mobile;
-        this.class_idx = classIdx;
-        this.class_number = classNumber;
+        this.classIdx = classIdx;
+        this.classNumber = classNumber;
     }
 
     public String getEmail() {
@@ -60,18 +67,18 @@ public final class Request {
     }
 
     public int getClassIdx() {
-        return class_idx;
+        return classIdx;
     }
 
     public void setClassIdx(int value) {
-        this.class_idx = value;
+        this.classIdx = value;
     }
 
     public int getClassNumber() {
-        return class_number;
+        return classNumber;
     }
 
     public void setClassNumber(int value) {
-        this.class_number = value;
+        this.classNumber = value;
     }
 }

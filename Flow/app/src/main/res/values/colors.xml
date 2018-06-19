@@ -5,9 +5,14 @@
     <color name="colorAccent">#FF4081</color>
     <color name="colorBlack">#000000</color>
     <color name="colorGray">#cbd1db</color>
-    <color name="buttonBeforeClick">#ffffff</color>
-    <color name="buttonAfterClick">#9896a4</color>
     <color name="approved">#BFFCC6</color>
     <color name="declined">#FFABAB</color>
     <color name="requested">#EFF58A</color>
+    <color name="first_pink">#FFEEDD</color>
+    <color name="second_pink">#FFCCCC</color>
+    <color name="third_pink">#FFBBCC</color>
+    <color name="four_pink">#FFDDCC</color>
+    <color name="five_pink">#FFEECC</color>
+    <color name="six_pink">#FFFFCC</color>
+    <color name="black">#000000</color>
 </resources>

@@ -1,5 +1,8 @@
 package com.donghyeokseo.flow.network.response.signin;
 
+/**
+ * @author dawncrow
+ */
 public final class Data {
     private String token;
     private User user;

@@ -32,11 +32,13 @@ import static com.donghyeokseo.flow.Util.hasSpecialCharacter;
 import static com.donghyeokseo.flow.Util.isSchoolEmail;
 import static com.donghyeokseo.flow.Util.isValidPassword;
 
+/**
+ * @author dawncrow
+ */
 public final class SignUpActivity extends AppCompatActivity {
 
     private int classIdx = 0;
     private int classNumber = 0;
-
     private boolean backButtonDestroy = true;
 
     SignService signService = new RetrofitApi(SignUpActivity.this).getSignService();
@@ -72,14 +74,19 @@ public final class SignUpActivity extends AppCompatActivity {
 
         String gender = ((RadioButton) findViewById(radioBtnSelectedId)).getText().toString();
 
-        if (checkInputHasValue()) return;
+        if (checkInputHasValue()) {
+            return;
+        }
 
         //이메일 정규식 검사
-        if (isSchoolEmail(inputEmail.getText().toString().trim()))
+        if (isSchoolEmail(inputEmail.getText().toString().trim())) {
+
             //비밀번호 정규식 검사
-            if (isValidPassword(inputPassword.getText().toString().trim()))
+            if (isValidPassword(inputPassword.getText().toString().trim())) {
+
                 //비밀번호 특수문자 포함 검사
-                if (hasSpecialCharacter(inputPassword.getText().toString().trim()))
+                if (hasSpecialCharacter(inputPassword.getText().toString().trim())) {
+
                     //비밀번호 재입력 검사
                     if (inputPassword.getText().toString().equals(
                             inputPasswordRepeat.getText().toString().trim())) {
@@ -96,16 +103,20 @@ public final class SignUpActivity extends AppCompatActivity {
                         );
 
                         sendPost(request);
-                    } else
+                    } else {
                         Toast.makeText(this,
                                 R.string.wrong_password, Toast.LENGTH_SHORT).show();
-                else
+                    }
+                } else {
                     Toast.makeText(this,
                             R.string.require_special_char, Toast.LENGTH_SHORT).show();
-            else
+                }
+            } else {
                 Toast.makeText(this, R.string.invalid_password, Toast.LENGTH_SHORT).show();
-        else
+            }
+        } else {
             Toast.makeText(this, R.string.invalid_email, Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -152,7 +163,6 @@ public final class SignUpActivity extends AppCompatActivity {
     private void sendPost(Request request) {
 
         signService.signUp(request).enqueue(new Callback<Response>() {
-
             @Override
             public void onResponse(@NonNull Call<Response> call,
                                    @NonNull retrofit2.Response<Response> response) {

@@ -30,6 +30,9 @@ import retrofit2.Callback;
 import static com.donghyeokseo.flow.Util.encryption;
 import static com.donghyeokseo.flow.Util.isSchoolEmail;
 
+/**
+ * @author dawncrow
+ */
 public final class SignInActivity extends AppCompatActivity {
 
     SignService signService;
@@ -48,10 +51,8 @@ public final class SignInActivity extends AppCompatActivity {
     private SharedPreferences pref;
 
 
-
     @Override
     protected void onStop() {
-
         super.onStop();
 
         pref.edit().putBoolean("isReLogin", false).apply();
@@ -93,8 +94,9 @@ public final class SignInActivity extends AppCompatActivity {
         String email = emailTv.getText().toString().trim();
         String password = passwordTv.getText().toString().trim();
 
-        if (!isSchoolEmail(email))
+        if (!isSchoolEmail(email)) {
             Toast.makeText(this, "올바른 이메일 형식이 아닙니다!", Toast.LENGTH_SHORT).show();
+        }
 
         Request request = new Request(email, encryption(password));
 

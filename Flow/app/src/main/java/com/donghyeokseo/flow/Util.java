@@ -5,13 +5,22 @@ import android.content.res.Resources;
 import android.text.TextUtils;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.regex.Pattern;
 
+import okhttp3.ResponseBody;
+
+/**
+ * @author dawncrow
+ */
 public final class Util {
 
     //out list status code
@@ -28,12 +37,12 @@ public final class Util {
     public static void getDeviceNavigationBarHeigh(Context context) {
 
         Resources resources = context.getResources();
-
         int resourceId = resources.getIdentifier("navigation_bar_height",
                 "dimen", "android");
 
-        if (resourceId > 0)
-            deviceNavbarHeight = resources.getDimensionPixelSize(resourceId);
+        if (resourceId > 0) {
+            deviceNavbarHeight = resources.getDimensionPixelSize(resourceId) + 20;
+        }
     }
 
     public static String encryption(String input) {
@@ -52,8 +61,9 @@ public final class Util {
             e.printStackTrace();
         }
 
-        if (md == null)
+        if (md == null) {
             return "";
+        }
 
         md.update(input.getBytes());
 
@@ -63,8 +73,9 @@ public final class Util {
 
             StringBuilder str = new StringBuilder(Integer.toHexString(temp & 0xFF));
 
-            while (str.length() < 2)
+            while (str.length() < 2) {
                 str.insert(0, "0");
+            }
 
             str = new StringBuilder(str.substring(str.length() - 2));
 
@@ -94,8 +105,9 @@ public final class Util {
 
         String line;
 
-        while ((line = br.readLine()) != null)
+        while ((line = br.readLine()) != null) {
             sb.append(line).append("\n");
+        }
 
         br.close();
 
@@ -109,17 +121,20 @@ public final class Util {
 
     public static boolean isValidPassword(String password) {
 
-        return password != null && Pattern.matches("^[a-zA-Z0-9!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?~`]{8,16}$", password);
+        return password != null && Pattern.matches("^[a-zA-Z0-9!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>/?~`]{8,16}$", password);
     }
 
     public static boolean hasSpecialCharacter(String string) {
 
-        if (TextUtils.isEmpty(string))
+        if (TextUtils.isEmpty(string)) {
             return false;
+        }
 
-        for (int i = 0; i < string.length(); i++)
-            if (!Character.isLetterOrDigit(string.charAt(i)))
+        for (int i = 0; i < string.length(); i++) {
+            if (!Character.isLetterOrDigit(string.charAt(i))) {
                 return true;
+            }
+        }
 
         return false;
     }

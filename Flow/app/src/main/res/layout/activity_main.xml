@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,7 +8,20 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <Button
+            android:id="@+id/view_notice_button"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/first_pink"
+            android:text="@string/check_notice" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="horizontal">
 
@@ -18,55 +30,56 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="#FFB900"
-            android:text="급식 보러 가기" />
+            android:background="@color/second_pink"
+            android:text="@string/see_meal" />
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_weight="1"
             android:orientation="vertical">
 
             <Button
                 android:id="@+id/apply_out_sleep_button"
-                android:layout_width="130dp"
-                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
                 android:layout_weight="1"
-                android:background="#E74856"
-                android:text="외박 신청하기" />
+                android:background="@color/third_pink"
+                android:text="@string/apply_out_sleep" />
 
             <Button
                 android:id="@+id/apply_out_go_button"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="0dp"
                 android:layout_weight="1"
-                android:background="#E75800"
-                android:text="외출 신청하기" />
+                android:background="@color/four_pink"
+                android:text="@string/apply_out_go" />
 
         </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="horizontal">
 
 
         <Button
             android:id="@+id/out_check_button"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="#E67E22"
-            android:text="외출/외박 신청 확인하기" />
+            android:background="@color/five_pink"
+            android:text="@string/check_out" />
 
         <Button
-            android:id="@+id/relogin_button"
-            android:layout_width="wrap_content"
+            android:id="@+id/logout_button"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="#E74C3C"
-            android:text="다른 아이디로 로그인하기" />
+            android:background="@color/six_pink"
+            android:text="@string/logout" />
     </LinearLayout>
 
 </LinearLayout>

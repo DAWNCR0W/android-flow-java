@@ -2,6 +2,9 @@ package com.donghyeokseo.flow.network.response.outgo;
 
 import com.google.gson.annotations.SerializedName;
 
+/**
+ * @author dawncrow
+ */
 public final class Data {
 
     @SerializedName("go_out")

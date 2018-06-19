@@ -9,12 +9,12 @@ package com.donghyeokseo.flow.api.school;
  */
 public class SchoolSchedule {
 
-    public String schedule;
+    private String schedule;
 
     /**
      * 일정이 없을 경우
      */
-    public SchoolSchedule() {
+    SchoolSchedule() {
         schedule = "";
     }
 
@@ -23,7 +23,7 @@ public class SchoolSchedule {
      *
      * @param schedule
      */
-    public SchoolSchedule(String schedule) {
+    SchoolSchedule(String schedule) {
         this.schedule = schedule;
     }
 

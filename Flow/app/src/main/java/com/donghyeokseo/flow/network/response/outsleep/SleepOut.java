@@ -4,6 +4,9 @@ import com.google.gson.annotations.SerializedName;
 
 import java.sql.Timestamp;
 
+/**
+ * @author dawncrow
+ */
 public final class SleepOut {
     private Long accept;
     private Long idx;

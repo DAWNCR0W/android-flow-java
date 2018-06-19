@@ -1,7 +1,12 @@
 package com.donghyeokseo.flow.model;
 
+import com.google.gson.annotations.SerializedName;
+
+/**
+ * @author dawncrow
+ */
 public final class Out {
-    private String StartTime;
+    private String startTime;
     private String endTime;
     private String reason;
     private int statusCode;
@@ -15,11 +20,11 @@ public final class Out {
     }
 
     public String getStartTime() {
-        return StartTime;
+        return startTime;
     }
 
     public void setStartTime(String startTime) {
-        StartTime = startTime;
+        this.startTime = startTime;
     }
 
     public String getEndTime() {

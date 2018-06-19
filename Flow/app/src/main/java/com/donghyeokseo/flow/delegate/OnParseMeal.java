@@ -1,5 +1,8 @@
 package com.donghyeokseo.flow.delegate;
 
-public interface OnParseMealProgress {
+/**
+ * @author dawncrow
+ */
+public interface OnParseMeal {
     void onParseMeal();
 }
