@@ -77,7 +77,6 @@ public final class NoticeRecyclerAdapter extends RecyclerView.Adapter {
             Intent i = new Intent(context, DetailNoticeActivity.class);
             i.putExtra("idx", Integer.parseInt(String.valueOf(idx.getText())));
             context.startActivity(i);
-            ((Activity) context).finish();
         }
     }
 }

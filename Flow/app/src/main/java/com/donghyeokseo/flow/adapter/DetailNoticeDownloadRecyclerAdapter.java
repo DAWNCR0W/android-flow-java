@@ -1,6 +1,13 @@
 package com.donghyeokseo.flow.adapter;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
+import android.content.pm.PackageManager;
+import android.os.Build;
+import android.os.Environment;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +33,8 @@ import butterknife.OnClick;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
+
+import static android.os.Environment.DIRECTORY_DOWNLOADS;
 
 /**
  * @author dawncrow
@@ -85,8 +94,25 @@ public final class DetailNoticeDownloadRecyclerAdapter extends RecyclerView.Adap
             noticeService.downloadNoticeFile(url).enqueue(new Callback<ResponseBody>() {
                 @Override
                 public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
-                    boolean writted = writeFileToDisk(response.body());
-                    Toast.makeText(context, "저장되었습니다", Toast.LENGTH_SHORT).show();
+                    boolean writted = false;
+
+                    if (Build.VERSION.SDK_INT >= 23) {
+                        int permissionCheck = ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                        if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+                            Toast.makeText(context, "저장에 필요한 권한을 설정해 주세요!", Toast.LENGTH_SHORT).show();
+                            ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+                        } else {
+                            writted = writeFileToDisk(response.body());
+                        }
+                    } else {
+                        writted = writeFileToDisk(response.body());
+                    }
+
+                    if (writted) {
+                        Toast.makeText(context, "저장되었습니다", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(context, "저장에 실패했습니다", Toast.LENGTH_SHORT).show();
+                    }
                 }
 
                 @Override
@@ -103,17 +129,15 @@ public final class DetailNoticeDownloadRecyclerAdapter extends RecyclerView.Adap
          */
         private boolean writeFileToDisk(ResponseBody body) {
             try {
+                String path = Environment.getExternalStoragePublicDirectory(DIRECTORY_DOWNLOADS) + File.separator + fileName.getText().toString();
                 // todo change the file location/name according to your needs
-                File futureStudioIconFile = new File(context.getExternalFilesDir(null) + File.separator + fileName.getText().toString());
+                File futureStudioIconFile = new File(path);
 
                 InputStream inputStream = null;
                 OutputStream outputStream = null;
 
                 try {
                     byte[] fileReader = new byte[4096];
-
-                    long fileSize = body.contentLength();
-                    long fileSizeDownloaded = 0;
 
                     inputStream = body.byteStream();
                     outputStream = new FileOutputStream(futureStudioIconFile);
@@ -126,8 +150,6 @@ public final class DetailNoticeDownloadRecyclerAdapter extends RecyclerView.Adap
                         }
 
                         outputStream.write(fileReader, 0, read);
-
-                        fileSizeDownloaded += read;
 
                     }
 
