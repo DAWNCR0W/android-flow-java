@@ -3,6 +3,7 @@ package com.donghyeokseo.flow.activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
@@ -48,7 +49,9 @@ public final class NoticeActivity extends AppCompatActivity {
         mRecyclerView.setHasFixedSize(true);
         mRecyclerViewLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mRecyclerViewLayoutManager);
-
+        DividerItemDecoration dividerItemDecoration =
+                new DividerItemDecoration(getApplicationContext(), new LinearLayoutManager(this).getOrientation());
+        mRecyclerView.addItemDecoration(dividerItemDecoration);
         getNotices();
     }
 

@@ -2,6 +2,7 @@ package com.donghyeokseo.flow.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
@@ -77,15 +78,15 @@ public final class DetailNoticeActivity extends AppCompatActivity {
                                 mRecyclerViewAdapter
                                         = new DetailNoticeDownloadRecyclerAdapter(
                                         new ArrayList<>(
-                                                Arrays.asList(
-                                                        response.body().getData().getNoticeFiles()
-                                                )
-                                        ),
-                                        DetailNoticeActivity.this,
-                                        noticeService
-                                );
+                                                Arrays.asList(response.body().getData().getNoticeFiles())),
+                                        DetailNoticeActivity.this
+                                        , noticeService);
 
                                 downloadRootView.setAdapter(mRecyclerViewAdapter);
+
+                                DividerItemDecoration dividerItemDecoration =
+                                        new DividerItemDecoration(getApplicationContext(), new LinearLayoutManager(DetailNoticeActivity.this).getOrientation());
+                                downloadRootView.addItemDecoration(dividerItemDecoration);
                             } else {
                                 Toast.makeText(DetailNoticeActivity.this, R.string.error, Toast.LENGTH_SHORT).show();
                             }
