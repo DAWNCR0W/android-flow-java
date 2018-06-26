@@ -62,7 +62,6 @@ public final class SignUpActivity extends AppCompatActivity {
 
     @OnClick(R.id.link_login)
     public void loginLinkClicked() {
-
         startActivity(new Intent(SignUpActivity.this, SignInActivity.class));
         finish();
     }
@@ -121,8 +120,8 @@ public final class SignUpActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_sign_up);
         ButterKnife.bind(this);
 
@@ -161,7 +160,6 @@ public final class SignUpActivity extends AppCompatActivity {
     }
 
     private void sendPost(Request request) {
-
         signService.signUp(request).enqueue(new Callback<Response>() {
             @Override
             public void onResponse(@NonNull Call<Response> call,
@@ -204,7 +202,6 @@ public final class SignUpActivity extends AppCompatActivity {
 
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
             classIdx = Integer.parseInt(parent.getItemAtPosition(position).toString());
         }
 
@@ -217,7 +214,6 @@ public final class SignUpActivity extends AppCompatActivity {
 
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
             classNumber = Integer.parseInt(parent.getItemAtPosition(position).toString());
         }
 
@@ -228,11 +224,9 @@ public final class SignUpActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-
         super.onDestroy();
 
-        if (backButtonDestroy == true) {
-
+        if (backButtonDestroy) {
             startActivity(new Intent(SignUpActivity.this, SignInActivity.class));
             finish();
         }

@@ -3,7 +3,6 @@
     <string name="breakfast_title">아침</string>
     <string name="lunch_title">점심</string>
     <string name="dinner_title">저녁</string>
-    <string name="sync_data">정보 받아오는중</string>
     <string name="no_data_title">급식 다 먹음</string>
     <string name="no_data_content">오늘 급식이 더이상 없습니다</string>
     <string name="wrong_password">재입력한 비밀번호가 다릅니다</string>

@@ -30,11 +30,14 @@ public final class GetMealInfo extends AsyncTask<Object, Void, List<SchoolMenu>>
 
     @Override
     protected List<SchoolMenu> doInBackground(Object[] objects) {
-//        --- parameter explanation ---
-//        objects[0] = year
-//        objects[1] = month
-//        objects[2] = day
-//        objects[3] = true = return menus; false = return schedule
+        /**
+         *         --- parameter explanation ---
+         * @Params objects[0] = year
+         * @Params objects[1] = month
+         * @Params objects[2] = day
+         * @Params objects[3] = true = return menus; false = return schedule
+         */
+
         List<SchoolMenu> menu = null;
 
         try {

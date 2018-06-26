@@ -64,7 +64,6 @@ public final class OutCheckRecyclerAdapter extends RecyclerView.Adapter {
             default:
                 break;
         }
-
         return new OutViewHolder(view);
     }
 

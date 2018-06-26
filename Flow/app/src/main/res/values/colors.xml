@@ -4,7 +4,6 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="colorBlack">#000000</color>
-    <color name="colorGray">#cbd1db</color>
     <color name="approved">#BFFCC6</color>
     <color name="declined">#FFABAB</color>
     <color name="requested">#EFF58A</color>

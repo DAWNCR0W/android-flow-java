@@ -50,11 +50,9 @@ public final class SignInActivity extends AppCompatActivity {
 
     private SharedPreferences pref;
 
-
     @Override
     protected void onStop() {
         super.onStop();
-
         pref.edit().putBoolean("isReLogin", false).apply();
     }
 
@@ -85,7 +83,6 @@ public final class SignInActivity extends AppCompatActivity {
 
     @OnClick(R.id.login_submit_button)
     public void OnLoginSubmitBtnClicked(View view) {
-
         login();
     }
 
@@ -161,7 +158,6 @@ public final class SignInActivity extends AppCompatActivity {
     }
 
     private void saveLogin() {
-
         SharedPreferences.Editor editor = pref.edit();
         editor.putString("id", emailTv.getText().toString());
         editor.putString("pw", passwordTv.getText().toString());

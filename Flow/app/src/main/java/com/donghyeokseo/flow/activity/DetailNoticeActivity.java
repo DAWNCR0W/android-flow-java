@@ -1,6 +1,7 @@
 package com.donghyeokseo.flow.activity;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,7 +11,6 @@ import android.widget.Toast;
 
 import com.donghyeokseo.flow.R;
 import com.donghyeokseo.flow.adapter.DetailNoticeDownloadRecyclerAdapter;
-import com.donghyeokseo.flow.model.NoticeFile;
 import com.donghyeokseo.flow.network.RetrofitApi;
 import com.donghyeokseo.flow.network.interfaces.NoticeService;
 import com.donghyeokseo.flow.network.response.notice.detail.Response;
@@ -30,9 +30,7 @@ import retrofit2.Callback;
 public final class DetailNoticeActivity extends AppCompatActivity {
 
     private NoticeService noticeService;
-    private NoticeFile[] noticeFiles;
     private RecyclerView.Adapter mRecyclerViewAdapter;
-    private RecyclerView.LayoutManager mRecyclerViewLayoutManager;
 
     @BindView(R.id.detail_notice_idx_textview)
     TextView idx;
@@ -54,7 +52,7 @@ public final class DetailNoticeActivity extends AppCompatActivity {
         noticeService = new RetrofitApi(DetailNoticeActivity.this).getNoticeService();
 
         downloadRootView.setHasFixedSize(true);
-        mRecyclerViewLayoutManager = new LinearLayoutManager(this);
+        RecyclerView.LayoutManager mRecyclerViewLayoutManager = new LinearLayoutManager(this);
         downloadRootView.setLayoutManager(mRecyclerViewLayoutManager);
 
         getNotice();
@@ -65,7 +63,8 @@ public final class DetailNoticeActivity extends AppCompatActivity {
                 .detailNotice(getIntent().getIntExtra("idx", 0))
                 .enqueue(new Callback<Response>() {
                     @Override
-                    public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
+                    public void onResponse(@NonNull Call<Response> call,
+                                           @NonNull retrofit2.Response<Response> response) {
                         if (response.isSuccessful()) {
 
                             if (Objects.requireNonNull(response.body()).getStatus() == 200) {
@@ -85,7 +84,10 @@ public final class DetailNoticeActivity extends AppCompatActivity {
                                 downloadRootView.setAdapter(mRecyclerViewAdapter);
 
                                 DividerItemDecoration dividerItemDecoration =
-                                        new DividerItemDecoration(getApplicationContext(), new LinearLayoutManager(DetailNoticeActivity.this).getOrientation());
+                                        new DividerItemDecoration(getApplicationContext(),
+                                                new LinearLayoutManager(DetailNoticeActivity.this)
+                                                        .getOrientation());
+
                                 downloadRootView.addItemDecoration(dividerItemDecoration);
                             } else {
                                 Toast.makeText(DetailNoticeActivity.this, R.string.error, Toast.LENGTH_SHORT).show();

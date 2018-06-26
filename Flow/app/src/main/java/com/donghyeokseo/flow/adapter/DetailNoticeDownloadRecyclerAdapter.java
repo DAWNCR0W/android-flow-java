@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
@@ -93,7 +94,9 @@ public final class DetailNoticeDownloadRecyclerAdapter extends RecyclerView.Adap
 
             noticeService.downloadNoticeFile(url).enqueue(new Callback<ResponseBody>() {
                 @Override
-                public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
+                public void onResponse(@NonNull Call<ResponseBody> call,
+                                       @NonNull retrofit2.Response<ResponseBody> response) {
+
                     boolean writted = false;
 
                     if (Build.VERSION.SDK_INT >= 23) {
@@ -116,7 +119,7 @@ public final class DetailNoticeDownloadRecyclerAdapter extends RecyclerView.Adap
                 }
 
                 @Override
-                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
                     Toast.makeText(context, R.string.error, Toast.LENGTH_SHORT).show();
                 }
             });
@@ -130,7 +133,6 @@ public final class DetailNoticeDownloadRecyclerAdapter extends RecyclerView.Adap
         private boolean writeFileToDisk(ResponseBody body) {
             try {
                 String path = Environment.getExternalStoragePublicDirectory(DIRECTORY_DOWNLOADS) + File.separator + fileName.getText().toString();
-                // todo change the file location/name according to your needs
                 File futureStudioIconFile = new File(path);
 
                 InputStream inputStream = null;

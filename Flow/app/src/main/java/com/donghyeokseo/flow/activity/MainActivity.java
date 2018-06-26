@@ -54,7 +54,6 @@ public final class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
         viewMealBtn.startAnimation(fadeIn1);
         viewApplyOutGoBtn.startAnimation(fadeIn2);
         viewApplyOutSleepBtn.startAnimation(fadeIn3);
